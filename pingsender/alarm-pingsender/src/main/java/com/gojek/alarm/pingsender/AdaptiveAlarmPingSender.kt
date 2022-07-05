@@ -27,11 +27,11 @@ import com.gojek.mqtt.pingsender.KeepAlive
 import com.gojek.mqtt.pingsender.KeepAliveCalculator
 import com.gojek.mqtt.pingsender.NoOpPingSenderEvents
 import com.gojek.mqtt.pingsender.keepAliveMillis
-import org.eclipse.paho.client.mqttv3.ILogger
-import org.eclipse.paho.client.mqttv3.IMqttActionListener
-import org.eclipse.paho.client.mqttv3.IMqttToken
-import org.eclipse.paho.client.mqttv3.MqttPingSender
-import org.eclipse.paho.client.mqttv3.internal.ClientComms
+import `in`.mohalla.phao.client.mqttv3.ILogger
+import `in`.mohalla.phao.client.mqttv3.IMqttActionListener
+import `in`.mohalla.phao.client.mqttv3.IMqttToken
+import `in`.mohalla.phao.client.mqttv3.MqttPingSender
+import `in`.mohalla.phao.client.mqttv3.internal.ClientComms
 
 /**
  * Default ping sender implementation on Android. It is based on AlarmManager.
@@ -248,7 +248,8 @@ internal class AdaptiveAlarmPingSender(
                 )
             }
             val sTime = clock.nanoTime()
-            token.actionCallback = object : IMqttActionListener {
+            token.actionCallback = object :
+                IMqttActionListener {
                 override fun onSuccess(asyncActionToken: IMqttToken) {
                     logger.d(
                         TAG,

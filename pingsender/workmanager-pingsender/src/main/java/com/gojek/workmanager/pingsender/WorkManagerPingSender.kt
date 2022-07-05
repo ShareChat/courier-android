@@ -6,10 +6,10 @@ import com.gojek.courier.utils.Clock
 import com.gojek.mqtt.pingsender.IPingSenderEvents
 import com.gojek.mqtt.pingsender.MqttPingSender
 import com.gojek.mqtt.pingsender.NoOpPingSenderEvents
-import org.eclipse.paho.client.mqttv3.ILogger
-import org.eclipse.paho.client.mqttv3.IMqttActionListener
-import org.eclipse.paho.client.mqttv3.IMqttToken
-import org.eclipse.paho.client.mqttv3.internal.ClientComms
+import `in`.mohalla.phao.client.mqttv3.ILogger
+import `in`.mohalla.phao.client.mqttv3.IMqttActionListener
+import `in`.mohalla.phao.client.mqttv3.IMqttToken
+import `in`.mohalla.phao.client.mqttv3.internal.ClientComms
 
 internal class WorkManagerPingSender(
     private val pingWorkScheduler: PingWorkScheduler,
@@ -61,7 +61,8 @@ internal class WorkManagerPingSender(
             return
         }
         val sTime = clock.nanoTime()
-        token.actionCallback = object : IMqttActionListener {
+        token.actionCallback = object :
+            IMqttActionListener {
             override fun onSuccess(asyncActionToken: IMqttToken) {
                 logger.d(TAG, "Mqtt Ping Sent successfully")
                 val timeTaken = (clock.nanoTime() - sTime).fromNanosToMillis()

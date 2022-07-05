@@ -1,7 +1,7 @@
 package com.gojek.mqtt.logging
 
-import org.eclipse.paho.client.mqttv3.ILogger
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage
+import `in`.mohalla.phao.client.mqttv3.ILogger
+import `in`.mohalla.phao.client.mqttv3.internal.wire.MqttWireMessage
 
 internal class PahoLogger(
     private val logger: com.gojek.courier.logging.ILogger

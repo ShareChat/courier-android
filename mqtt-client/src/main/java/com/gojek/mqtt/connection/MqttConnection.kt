@@ -29,20 +29,20 @@ import com.gojek.mqtt.send.listener.IMessageSendListener
 import com.gojek.mqtt.subscription.SubscriptionStore
 import com.gojek.mqtt.utils.NetworkUtils
 import com.gojek.mqtt.wakelock.WakeLockProvider
-import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions
-import org.eclipse.paho.client.mqttv3.IExperimentsConfig
-import org.eclipse.paho.client.mqttv3.IMqttActionListener
-import org.eclipse.paho.client.mqttv3.IMqttActionListenerNew
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
-import org.eclipse.paho.client.mqttv3.IMqttToken
-import org.eclipse.paho.client.mqttv3.MqttAsyncClient
-import org.eclipse.paho.client.mqttv3.MqttCallback
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions
-import org.eclipse.paho.client.mqttv3.MqttException
-import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
-import org.eclipse.paho.client.mqttv3.MqttMessage
-import org.eclipse.paho.client.mqttv3.MqttSecurityException
-import org.eclipse.paho.client.mqttv3.internal.wire.UserProperty
+import `in`.mohalla.phao.client.mqttv3.DisconnectedBufferOptions
+import `in`.mohalla.phao.client.mqttv3.IExperimentsConfig
+import `in`.mohalla.phao.client.mqttv3.IMqttActionListener
+import `in`.mohalla.phao.client.mqttv3.IMqttActionListenerNew
+import `in`.mohalla.phao.client.mqttv3.IMqttDeliveryToken
+import `in`.mohalla.phao.client.mqttv3.IMqttToken
+import `in`.mohalla.phao.client.mqttv3.MqttAsyncClient
+import `in`.mohalla.phao.client.mqttv3.MqttCallback
+import `in`.mohalla.phao.client.mqttv3.MqttConnectOptions
+import `in`.mohalla.phao.client.mqttv3.MqttException
+import `in`.mohalla.phao.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
+import `in`.mohalla.phao.client.mqttv3.MqttMessage
+import `in`.mohalla.phao.client.mqttv3.MqttSecurityException
+import `in`.mohalla.phao.client.mqttv3.internal.wire.UserProperty
 
 internal class MqttConnection(
     private val context: Context,
@@ -216,7 +216,10 @@ internal class MqttConnection(
                 serverUri,
                 timeTakenMillis = (clock.nanoTime() - connectStartTime).fromNanosToMillis()
             )
-            val mqttException = MqttException(REASON_CODE_UNEXPECTED_ERROR.toInt(), e)
+            val mqttException = MqttException(
+                REASON_CODE_UNEXPECTED_ERROR.toInt(),
+                e
+            )
             runnableScheduler.scheduleMqttHandleExceptionRunnable(mqttException, true)
             wakeLockProvider.releaseWakeLock()
         }
@@ -393,7 +396,8 @@ internal class MqttConnection(
             getPahoExperimentsConfig(),
             connectionConfig.mqttInterceptorList
         )
-        val bufferOptions = DisconnectedBufferOptions()
+        val bufferOptions =
+            DisconnectedBufferOptions()
         with(connectionConfig.persistenceOptions as PahoPersistenceOptions) {
             bufferOptions.isBufferEnabled = true
             bufferOptions.isPersistBuffer = true

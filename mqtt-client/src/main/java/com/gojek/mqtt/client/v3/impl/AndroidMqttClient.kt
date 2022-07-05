@@ -73,9 +73,9 @@ import com.gojek.mqtt.wakelock.WakeLockProvider
 import com.gojek.networktracker.NetworkStateTracker
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.TimeUnit
-import org.eclipse.paho.client.mqttv3.MqttException
-import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
-import org.eclipse.paho.client.mqttv3.MqttPersistenceException
+import `in`.mohalla.phao.client.mqttv3.MqttException
+import `in`.mohalla.phao.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
+import `in`.mohalla.phao.client.mqttv3.MqttPersistenceException
 
 internal class AndroidMqttClient(
     private val context: Context,
@@ -388,7 +388,10 @@ internal class AndroidMqttClient(
                     timeTakenMillis = (clock.nanoTime() - startTime).fromNanosToMillis()
                 )
             )
-            val mqttException = MqttException(REASON_CODE_UNEXPECTED_ERROR.toInt(), e)
+            val mqttException = MqttException(
+                REASON_CODE_UNEXPECTED_ERROR.toInt(),
+                e
+            )
             runnableScheduler.scheduleMqttHandleExceptionRunnable(mqttException, true)
         }
     }
