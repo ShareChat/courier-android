@@ -3,6 +3,7 @@ package com.gojek.mqtt.connection
 import android.content.Context
 import android.os.SystemClock
 import com.gojek.courier.QoS
+import com.gojek.courier.QoS.ONE
 import com.gojek.courier.extensions.fromNanosToMillis
 import com.gojek.courier.logging.ILogger
 import com.gojek.courier.utils.Clock
@@ -42,6 +43,7 @@ import `in`.mohalla.phao.client.mqttv3.MqttException
 import `in`.mohalla.phao.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
 import `in`.mohalla.phao.client.mqttv3.MqttMessage
 import `in`.mohalla.phao.client.mqttv3.MqttSecurityException
+import `in`.mohalla.phao.client.mqttv3.internal.wire.MqttSuback
 import `in`.mohalla.phao.client.mqttv3.internal.wire.UserProperty
 
 internal class MqttConnection(
@@ -519,12 +521,33 @@ internal class MqttConnection(
             override fun onSuccess(iMqttToken: IMqttToken) {
                 logger.d(TAG, "Subscribe successful. Connect Complete")
                 val context = iMqttToken.userContext as MqttContext
-                connectionConfig.connectionEventHandler.onMqttSubscribeSuccess(
-                    topics = topicMap,
-                    timeTakenMillis = (clock.nanoTime() - context.startTime).fromNanosToMillis()
-                )
+                val successTopicMap = mutableMapOf<String, QoS>()
+                val failTopicMap = mutableMapOf<String, QoS>()
+                iMqttToken.topics.forEachIndexed { index, topic ->
+                    if (128 == (iMqttToken.response as? MqttSuback)?.grantedQos?.getOrNull(index)) {
+                        failTopicMap[topic] = topicMap[topic] ?: ONE
+                    } else {
+                        successTopicMap[topic] = topicMap[topic] ?: ONE
+                    }
+                }
+
+                if (successTopicMap.isNotEmpty()) {
+                    connectionConfig.connectionEventHandler.onMqttSubscribeSuccess(
+                        topics = successTopicMap,
+                        timeTakenMillis = (clock.nanoTime() - context.startTime).fromNanosToMillis()
+                    )
+                }
+
+                if (failTopicMap.isNotEmpty()) {
+                    connectionConfig.connectionEventHandler.onMqttSubscribeFailure(
+                        topics = failTopicMap,
+                        timeTakenMillis = (clock.nanoTime() - context.startTime).fromNanosToMillis(),
+                        throwable = MqttException(MqttException.REASON_CODE_SUBSCRIPTION_NOT_ACK.toInt())
+                    )
+                }
+
+                subscriptionStore.getListener().onTopicsSubscribed(successTopicMap)
                 subscriptionPolicy.resetParams()
-                subscriptionStore.getListener().onTopicsSubscribed(topicMap)
             }
 
             override fun onFailure(
