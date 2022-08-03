@@ -137,4 +137,9 @@ public interface IMqttToken
 	 */
 	public int getMessageId();
 
+	/**
+	 * @return the granted QoS list from a suback
+	 */
+	int[] getGrantedQos();
+
 }
