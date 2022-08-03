@@ -39,6 +39,7 @@ import org.eclipse.paho.client.mqttv3.MqttAsyncClient
 import org.eclipse.paho.client.mqttv3.MqttCallback
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 import org.eclipse.paho.client.mqttv3.MqttException
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_SUBSCRIPTION_NOT_ACK
 import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.eclipse.paho.client.mqttv3.MqttSecurityException
@@ -471,12 +472,17 @@ internal class MqttConnection(
             try {
                 logger.d(TAG, "Subscribing to topics: ${topicMap.keys}")
                 connectionConfig.connectionEventHandler.onMqttSubscribeAttempt(topicMap)
-                mqtt!!.subscribe(
+                val token: IMqttToken = mqtt!!.subscribe(
                     topicArray,
                     qosArray,
                     MqttContext(subscribeStartTime),
                     getSubscribeListener(topicMap)
                 )
+                token.waitForCompletion()
+                val grantedQos = token.grantedQos
+                if (grantedQos.size == 1 && grantedQos[0] == REASON_CODE_SUBSCRIPTION_NOT_ACK) {
+                    throw MqttException(REASON_CODE_SUBSCRIPTION_NOT_ACK)
+                }
             } catch (mqttException: MqttException) {
                 connectionConfig.connectionEventHandler.onMqttSubscribeFailure(
                     topics = topicMap,
