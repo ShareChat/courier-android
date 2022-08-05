@@ -1,4 +1,5 @@
 ext {
     gitVersionCode = grgit.tag.list().size()
-    gitVersionName = "0.0.5-snapshot"//grgit.describe(tags: true, always: true)
+    gitVersionName = grgit.describe(tags: true, always: true)
+    println("version : $gitVersionName")
 }
