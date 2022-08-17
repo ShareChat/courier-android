@@ -13,6 +13,8 @@ package in.mohalla.phao.client.mqttv3;
 
 import in.mohalla.phao.client.mqttv3.internal.wire.MqttWireMessage;
 
+import org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage;
+
 /**
  * Provides a mechanism for tracking the completion of an asynchronous task.
  * 

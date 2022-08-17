@@ -143,9 +143,9 @@ public class MqttException extends Exception
 	public static final short REASON_CODE_DISCONNECTED_BUFFER_FULL	= 32203;
 
 	/**
-	 * The Client has attempted to subscribe to a MQTT topic but the server has not acknowledged with a success.
+	 * The Client has attempted to subscribe to an invalid topic.
 	 */
-	public static final short REASON_CODE_SUBSCRIPTION_NOT_ACK = 32204;
+	public static final short REASON_CODE_INVALID_SUBSCRIPTION = 32204;
 
 	private int reasonCode;
 
