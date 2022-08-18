@@ -39,6 +39,7 @@ import `in`.mohalla.phao.client.mqttv3.MqttAsyncClient
 import `in`.mohalla.phao.client.mqttv3.MqttCallback
 import `in`.mohalla.phao.client.mqttv3.MqttConnectOptions
 import `in`.mohalla.phao.client.mqttv3.MqttException
+import `in`.mohalla.phao.client.mqttv3.MqttException.REASON_CODE_INVALID_SUBSCRIPTION
 import `in`.mohalla.phao.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
 import `in`.mohalla.phao.client.mqttv3.MqttMessage
 import `in`.mohalla.phao.client.mqttv3.MqttSecurityException
@@ -566,7 +567,7 @@ internal class MqttConnection(
                     logger.e(TAG, "Subscribe unsuccessful. Will reconnect again")
                     val context = iMqttToken.userContext as MqttContext
                     connectionConfig.connectionEventHandler.onMqttSubscribeFailure(
-                        topics = topicMap,
+                        topics = subscriptionStore.getSubscribeTopics(),
                         throwable = throwable,
                         timeTakenMillis = (clock.nanoTime() - context.startTime).fromNanosToMillis()
                     )

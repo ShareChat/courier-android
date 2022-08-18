@@ -12,7 +12,7 @@ android {
 }
 
 ext {
-    set("PUBLISH_GROUP_ID", "com.gojek.courier")
+    set("PUBLISH_GROUP_ID", "in.mohalla.courier")
     set("PUBLISH_ARTIFACT_ID", "app-state-manager")
     set("PUBLISH_VERSION", ext.get("gitVersionName"))
     set("minimumCoverage", "0.0")

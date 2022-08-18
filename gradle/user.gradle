@@ -1,0 +1,11 @@
+ext {
+    localProperties = new Properties()
+    try {
+        localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+        guser = localProperties['GITHUB_USERNAME']
+        gtoken = localProperties['GITHUB_PACKAGE_KEY']
+    } catch (ignored) {
+        guser = ""
+        gtoken = ""
+    }
+}
