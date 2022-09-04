@@ -217,7 +217,7 @@ internal class AndroidMqttClient(
 
     // This can be invoked on any thread
     override fun reconnect() {
-        mqttConfiguration.eventHandler.onEvent(MqttReconnectEvent())
+        mqttConfiguration.eventHandler.onEvent(MqttReconnectEvent(activeNetInfo = networkHandler.getActiveNetworkInfo()))
         runnableScheduler.disconnectMqtt(true)
     }
 
@@ -402,7 +402,7 @@ internal class AndroidMqttClient(
 
     // This runs on Mqtt thread
     override fun disconnectMqtt(clearState: Boolean) {
-        mqttConfiguration.eventHandler.onEvent(MqttDisconnectEvent())
+        mqttConfiguration.eventHandler.onEvent(MqttDisconnectEvent(activeNetInfo = networkHandler.getActiveNetworkInfo(),))
         mqttConnection.disconnect()
         if (clearState) {
             mqttConnection.shutDown()

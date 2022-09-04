@@ -106,17 +106,20 @@ sealed class MqttEvent(open var connectionInfo: ConnectionInfo?) {
     ) : MqttEvent(connectionInfo)
 
     data class MqttSubscribeAttemptEvent(
+        val activeNetInfo: ActiveNetInfo,
         val topics: Map<String, QoS>,
         override var connectionInfo: ConnectionInfo? = null
     ) : MqttEvent(connectionInfo)
 
     data class MqttSubscribeSuccessEvent(
+        val activeNetInfo: ActiveNetInfo,
         val topics: Map<String, QoS>,
         val timeTakenMillis: Long,
         override var connectionInfo: ConnectionInfo? = null
     ) : MqttEvent(connectionInfo)
 
     data class MqttSubscribeFailureEvent(
+        val activeNetInfo: ActiveNetInfo,
         val topics: Map<String, QoS>,
         val exception: CourierException,
         val timeTakenMillis: Long,
@@ -124,17 +127,20 @@ sealed class MqttEvent(open var connectionInfo: ConnectionInfo?) {
     ) : MqttEvent(connectionInfo)
 
     data class MqttUnsubscribeAttemptEvent(
+        val activeNetInfo: ActiveNetInfo,
         val topics: Set<String>,
         override var connectionInfo: ConnectionInfo? = null
     ) : MqttEvent(connectionInfo)
 
     data class MqttUnsubscribeSuccessEvent(
+        val activeNetInfo: ActiveNetInfo,
         val topics: Set<String>,
         val timeTakenMillis: Long,
         override var connectionInfo: ConnectionInfo? = null
     ) : MqttEvent(connectionInfo)
 
     data class MqttUnsubscribeFailureEvent(
+        val activeNetInfo: ActiveNetInfo,
         val topics: Set<String>,
         val exception: CourierException,
         val timeTakenMillis: Long,
@@ -233,18 +239,22 @@ sealed class MqttEvent(open var connectionInfo: ConnectionInfo?) {
     ) : MqttEvent(connectionInfo)
 
     data class MqttReconnectEvent(
+        val activeNetInfo: ActiveNetInfo,
         override var connectionInfo: ConnectionInfo? = null
     ) : MqttEvent(connectionInfo)
 
     data class MqttDisconnectEvent(
+        val activeNetInfo: ActiveNetInfo,
         override var connectionInfo: ConnectionInfo? = null
     ) : MqttEvent(connectionInfo)
 
     data class MqttDisconnectStartEvent(
+        val activeNetInfo: ActiveNetInfo,
         override var connectionInfo: ConnectionInfo? = null
     ) : MqttEvent(connectionInfo)
 
     data class MqttDisconnectCompleteEvent(
+        val activeNetInfo: ActiveNetInfo,
         override var connectionInfo: ConnectionInfo? = null
     ) : MqttEvent(connectionInfo)
 

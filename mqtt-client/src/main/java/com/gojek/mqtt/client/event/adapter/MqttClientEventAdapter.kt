@@ -97,6 +97,7 @@ internal class MqttClientEventAdapter(
             override fun onMqttSubscribeAttempt(topics: Map<String, QoS>) {
                 eventHandler.onEvent(
                     MqttSubscribeAttemptEvent(
+                        activeNetInfo = networkHandler.getActiveNetworkInfo(),
                         topics = topics
                     )
                 )
@@ -108,6 +109,7 @@ internal class MqttClientEventAdapter(
             ) {
                 eventHandler.onEvent(
                     MqttSubscribeSuccessEvent(
+                        activeNetInfo = networkHandler.getActiveNetworkInfo(),
                         topics = topics,
                         timeTakenMillis = timeTakenMillis
                     )
@@ -121,6 +123,7 @@ internal class MqttClientEventAdapter(
             ) {
                 eventHandler.onEvent(
                     MqttSubscribeFailureEvent(
+                        activeNetInfo = networkHandler.getActiveNetworkInfo(),
                         topics = topics,
                         exception = throwable.toCourierException(),
                         timeTakenMillis = timeTakenMillis
@@ -135,6 +138,7 @@ internal class MqttClientEventAdapter(
             ) {
                 eventHandler.onEvent(
                     MqttUnsubscribeFailureEvent(
+                        activeNetInfo = networkHandler.getActiveNetworkInfo(),
                         topics = topics,
                         exception = throwable.toCourierException(),
                         timeTakenMillis = timeTakenMillis
@@ -145,6 +149,7 @@ internal class MqttClientEventAdapter(
             override fun onMqttUnsubscribeAttempt(topics: Set<String>) {
                 eventHandler.onEvent(
                     MqttUnsubscribeAttemptEvent(
+                        activeNetInfo = networkHandler.getActiveNetworkInfo(),
                         topics = topics
                     )
                 )
@@ -156,6 +161,7 @@ internal class MqttClientEventAdapter(
             ) {
                 eventHandler.onEvent(
                     MqttUnsubscribeSuccessEvent(
+                        activeNetInfo = networkHandler.getActiveNetworkInfo(),
                         topics = topics,
                         timeTakenMillis = timeTakenMillis
                     )
@@ -272,11 +278,11 @@ internal class MqttClientEventAdapter(
             }
 
             override fun onMqttDisconnectStart() {
-                eventHandler.onEvent(MqttDisconnectStartEvent())
+                eventHandler.onEvent(MqttDisconnectStartEvent(activeNetInfo = networkHandler.getActiveNetworkInfo(),))
             }
 
             override fun onMqttDisconnectComplete() {
-                eventHandler.onEvent(MqttDisconnectCompleteEvent())
+                eventHandler.onEvent(MqttDisconnectCompleteEvent(activeNetInfo = networkHandler.getActiveNetworkInfo(),))
             }
 
             override fun onMqttConnectDiscarded(reason: String) {
