@@ -278,11 +278,11 @@ internal class MqttClientEventAdapter(
             }
 
             override fun onMqttDisconnectStart() {
-                eventHandler.onEvent(MqttDisconnectStartEvent(activeNetInfo = networkHandler.getActiveNetworkInfo(),))
+                eventHandler.onEvent(MqttDisconnectStartEvent(activeNetInfo = networkHandler.getActiveNetworkInfo()))
             }
 
             override fun onMqttDisconnectComplete() {
-                eventHandler.onEvent(MqttDisconnectCompleteEvent(activeNetInfo = networkHandler.getActiveNetworkInfo(),))
+                eventHandler.onEvent(MqttDisconnectCompleteEvent(activeNetInfo = networkHandler.getActiveNetworkInfo()))
             }
 
             override fun onMqttConnectDiscarded(reason: String) {
