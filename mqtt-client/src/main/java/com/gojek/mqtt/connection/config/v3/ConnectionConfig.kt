@@ -9,7 +9,7 @@ import com.gojek.mqtt.policies.connectretrytime.IConnectRetryTimePolicy
 import com.gojek.mqtt.policies.connecttimeout.IConnectTimeoutPolicy
 import com.gojek.mqtt.policies.subscriptionretry.ISubscriptionRetryPolicy
 import javax.net.SocketFactory
-import `in`.mohalla.phao.client.mqttv3.MqttInterceptor
+import `in`.mohalla.paho.client.mqttv3.MqttInterceptor
 
 internal data class ConnectionConfig(
     val connectRetryTimePolicy: IConnectRetryTimePolicy,

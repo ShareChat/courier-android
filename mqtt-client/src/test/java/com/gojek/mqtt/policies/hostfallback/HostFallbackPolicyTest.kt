@@ -2,7 +2,7 @@ package com.gojek.mqtt.policies.hostfallback
 
 import com.gojek.mqtt.model.ServerUri
 import java.lang.IllegalArgumentException
-import `in`.mohalla.phao.client.mqttv3.MqttException
+import `in`.mohalla.paho.client.mqttv3.MqttException
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

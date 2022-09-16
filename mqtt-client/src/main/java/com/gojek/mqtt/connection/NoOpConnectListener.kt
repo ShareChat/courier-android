@@ -1,7 +1,7 @@
 package com.gojek.mqtt.connection
 
-import `in`.mohalla.phao.client.mqttv3.IMqttActionListener
-import `in`.mohalla.phao.client.mqttv3.IMqttToken
+import `in`.mohalla.paho.client.mqttv3.IMqttActionListener
+import `in`.mohalla.paho.client.mqttv3.IMqttToken
 
 internal class NoOpConnectListener :
     IMqttActionListener {

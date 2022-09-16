@@ -29,22 +29,22 @@ import com.gojek.mqtt.send.listener.IMessageSendListener
 import com.gojek.mqtt.subscription.SubscriptionStore
 import com.gojek.mqtt.utils.NetworkUtils
 import com.gojek.mqtt.wakelock.WakeLockProvider
-import `in`.mohalla.phao.client.mqttv3.DisconnectedBufferOptions
-import `in`.mohalla.phao.client.mqttv3.IExperimentsConfig
-import `in`.mohalla.phao.client.mqttv3.IMqttActionListener
-import `in`.mohalla.phao.client.mqttv3.IMqttActionListenerNew
-import `in`.mohalla.phao.client.mqttv3.IMqttDeliveryToken
-import `in`.mohalla.phao.client.mqttv3.IMqttToken
-import `in`.mohalla.phao.client.mqttv3.MqttAsyncClient
-import `in`.mohalla.phao.client.mqttv3.MqttCallback
-import `in`.mohalla.phao.client.mqttv3.MqttConnectOptions
-import `in`.mohalla.phao.client.mqttv3.MqttException
-import `in`.mohalla.phao.client.mqttv3.MqttException.REASON_CODE_INVALID_SUBSCRIPTION
-import `in`.mohalla.phao.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
-import `in`.mohalla.phao.client.mqttv3.MqttMessage
-import `in`.mohalla.phao.client.mqttv3.MqttSecurityException
-import `in`.mohalla.phao.client.mqttv3.internal.wire.MqttSuback
-import `in`.mohalla.phao.client.mqttv3.internal.wire.UserProperty
+import `in`.mohalla.paho.client.mqttv3.DisconnectedBufferOptions
+import `in`.mohalla.paho.client.mqttv3.IExperimentsConfig
+import `in`.mohalla.paho.client.mqttv3.IMqttActionListener
+import `in`.mohalla.paho.client.mqttv3.IMqttActionListenerNew
+import `in`.mohalla.paho.client.mqttv3.IMqttDeliveryToken
+import `in`.mohalla.paho.client.mqttv3.IMqttToken
+import `in`.mohalla.paho.client.mqttv3.MqttAsyncClient
+import `in`.mohalla.paho.client.mqttv3.MqttCallback
+import `in`.mohalla.paho.client.mqttv3.MqttConnectOptions
+import `in`.mohalla.paho.client.mqttv3.MqttException
+import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_INVALID_SUBSCRIPTION
+import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
+import `in`.mohalla.paho.client.mqttv3.MqttMessage
+import `in`.mohalla.paho.client.mqttv3.MqttSecurityException
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttSuback
+import `in`.mohalla.paho.client.mqttv3.internal.wire.UserProperty
 
 internal class MqttConnection(
     private val context: Context,
@@ -218,7 +218,10 @@ internal class MqttConnection(
                 serverUri,
                 timeTakenMillis = (clock.nanoTime() - connectStartTime).fromNanosToMillis()
             )
-            val mqttException = MqttException(REASON_CODE_UNEXPECTED_ERROR.toInt(), e)
+            val mqttException = MqttException(
+                REASON_CODE_UNEXPECTED_ERROR.toInt(),
+                e
+            )
             runnableScheduler.scheduleMqttHandleExceptionRunnable(mqttException, true)
             wakeLockProvider.releaseWakeLock()
         }
@@ -329,7 +332,12 @@ internal class MqttConnection(
     private fun getUserPropertyList(userPropertiesMap: Map<String, String>): List<UserProperty> {
         val userProperties = mutableListOf<UserProperty>()
         userPropertiesMap.entries.forEach { entry ->
-            userProperties.add(UserProperty(entry.key, entry.value))
+            userProperties.add(
+                UserProperty(
+                    entry.key,
+                    entry.value
+                )
+            )
         }
         return userProperties
     }
@@ -395,7 +403,8 @@ internal class MqttConnection(
             getPahoExperimentsConfig(),
             connectionConfig.mqttInterceptorList
         )
-        val bufferOptions = DisconnectedBufferOptions()
+        val bufferOptions =
+            DisconnectedBufferOptions()
         with(connectionConfig.persistenceOptions as PahoPersistenceOptions) {
             bufferOptions.isBufferEnabled = true
             bufferOptions.isPersistBuffer = true
@@ -547,7 +556,9 @@ internal class MqttConnection(
                     connectionConfig.connectionEventHandler.onMqttSubscribeFailure(
                         topics = failTopicMap,
                         timeTakenMillis = (clock.nanoTime() - context.startTime).fromNanosToMillis(),
-                        throwable = MqttException(MqttException.REASON_CODE_INVALID_SUBSCRIPTION.toInt())
+                        throwable = MqttException(
+                            REASON_CODE_INVALID_SUBSCRIPTION.toInt()
+                        )
                     )
                 }
 

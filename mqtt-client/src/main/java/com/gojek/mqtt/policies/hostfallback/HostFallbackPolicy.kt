@@ -1,8 +1,8 @@
 package com.gojek.mqtt.policies.hostfallback
 
 import com.gojek.mqtt.model.ServerUri
-import `in`.mohalla.phao.client.mqttv3.MqttException
-import `in`.mohalla.phao.client.mqttv3.MqttException.REASON_CODE_CLIENT_EXCEPTION
+import `in`.mohalla.paho.client.mqttv3.MqttException
+import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_CLIENT_EXCEPTION
 
 internal class HostFallbackPolicy(
     serverUris: List<ServerUri>

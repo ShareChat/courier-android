@@ -9,10 +9,10 @@ import com.gojek.mqtt.pingsender.MqttPingSender
 import com.gojek.mqtt.pingsender.NoOpPingSenderEvents
 import java.util.Timer
 import java.util.TimerTask
-import `in`.mohalla.phao.client.mqttv3.ILogger
-import `in`.mohalla.phao.client.mqttv3.IMqttActionListener
-import `in`.mohalla.phao.client.mqttv3.IMqttToken
-import `in`.mohalla.phao.client.mqttv3.internal.ClientComms
+import `in`.mohalla.paho.client.mqttv3.ILogger
+import `in`.mohalla.paho.client.mqttv3.IMqttActionListener
+import `in`.mohalla.paho.client.mqttv3.IMqttToken
+import `in`.mohalla.paho.client.mqttv3.internal.ClientComms
 
 /**
  * Default ping sender implementation

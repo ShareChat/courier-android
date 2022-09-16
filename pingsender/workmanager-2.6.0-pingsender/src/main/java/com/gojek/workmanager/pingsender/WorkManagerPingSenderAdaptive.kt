@@ -10,10 +10,10 @@ import com.gojek.mqtt.pingsender.KeepAlive
 import com.gojek.mqtt.pingsender.KeepAliveCalculator
 import com.gojek.mqtt.pingsender.NoOpPingSenderEvents
 import com.gojek.mqtt.pingsender.keepAliveMillis
-import `in`.mohalla.phao.client.mqttv3.ILogger
-import `in`.mohalla.phao.client.mqttv3.IMqttActionListener
-import `in`.mohalla.phao.client.mqttv3.IMqttToken
-import `in`.mohalla.phao.client.mqttv3.internal.ClientComms
+import `in`.mohalla.paho.client.mqttv3.ILogger
+import `in`.mohalla.paho.client.mqttv3.IMqttActionListener
+import `in`.mohalla.paho.client.mqttv3.IMqttToken
+import `in`.mohalla.paho.client.mqttv3.internal.ClientComms
 
 internal class WorkManagerPingSenderAdaptive(
     private val pingWorkScheduler: PingWorkScheduler,

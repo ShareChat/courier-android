@@ -8,7 +8,7 @@ interface MqttInterceptor {
 
 private class MqttInterceptorInternal(
     private val mqttInterceptor: MqttInterceptor
-) : `in`.mohalla.phao.client.mqttv3.MqttInterceptor {
+) : `in`.mohalla.paho.client.mqttv3.MqttInterceptor {
     override fun onMqttWireMessageSent(mqttWireMessageBytes: ByteArray) {
         mqttInterceptor.onMqttWireMessageSent(mqttWireMessageBytes)
     }
@@ -20,6 +20,6 @@ private class MqttInterceptorInternal(
 
 internal fun mapToPahoInterceptor(
     mqttInterceptor: MqttInterceptor
-): `in`.mohalla.phao.client.mqttv3.MqttInterceptor {
+): `in`.mohalla.paho.client.mqttv3.MqttInterceptor {
     return MqttInterceptorInternal(mqttInterceptor)
 }
