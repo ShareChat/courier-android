@@ -78,3 +78,4 @@ val clean by tasks.creating(Delete::class) {
 }
 
 apply(from = "${rootDir}/gradle/publish-root.gradle")
+apply(from = "${rootDir}/gradle/user.gradle")

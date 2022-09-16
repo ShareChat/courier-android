@@ -6,7 +6,7 @@ apply("$rootDir/gradle/script-ext.gradle")
 val version = ext.get("gitVersionName")
 
 ext {
-    set("PUBLISH_GROUP_ID", "com.gojek.courier")
+    set("PUBLISH_GROUP_ID", "in.mohalla.courier")
     set("PUBLISH_ARTIFACT_ID", "courier")
     set("PUBLISH_VERSION", ext.get("gitVersionName"))
     set("minimumCoverage", "0.0")

@@ -29,20 +29,22 @@ import com.gojek.mqtt.send.listener.IMessageSendListener
 import com.gojek.mqtt.subscription.SubscriptionStore
 import com.gojek.mqtt.utils.NetworkUtils
 import com.gojek.mqtt.wakelock.WakeLockProvider
-import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions
-import org.eclipse.paho.client.mqttv3.IExperimentsConfig
-import org.eclipse.paho.client.mqttv3.IMqttActionListener
-import org.eclipse.paho.client.mqttv3.IMqttActionListenerNew
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
-import org.eclipse.paho.client.mqttv3.IMqttToken
-import org.eclipse.paho.client.mqttv3.MqttAsyncClient
-import org.eclipse.paho.client.mqttv3.MqttCallback
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions
-import org.eclipse.paho.client.mqttv3.MqttException
-import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
-import org.eclipse.paho.client.mqttv3.MqttMessage
-import org.eclipse.paho.client.mqttv3.MqttSecurityException
-import org.eclipse.paho.client.mqttv3.internal.wire.UserProperty
+import `in`.mohalla.paho.client.mqttv3.DisconnectedBufferOptions
+import `in`.mohalla.paho.client.mqttv3.IExperimentsConfig
+import `in`.mohalla.paho.client.mqttv3.IMqttActionListener
+import `in`.mohalla.paho.client.mqttv3.IMqttActionListenerNew
+import `in`.mohalla.paho.client.mqttv3.IMqttDeliveryToken
+import `in`.mohalla.paho.client.mqttv3.IMqttToken
+import `in`.mohalla.paho.client.mqttv3.MqttAsyncClient
+import `in`.mohalla.paho.client.mqttv3.MqttCallback
+import `in`.mohalla.paho.client.mqttv3.MqttConnectOptions
+import `in`.mohalla.paho.client.mqttv3.MqttException
+import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_INVALID_SUBSCRIPTION
+import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
+import `in`.mohalla.paho.client.mqttv3.MqttMessage
+import `in`.mohalla.paho.client.mqttv3.MqttSecurityException
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttSuback
+import `in`.mohalla.paho.client.mqttv3.internal.wire.UserProperty
 
 internal class MqttConnection(
     private val context: Context,
@@ -216,7 +218,10 @@ internal class MqttConnection(
                 serverUri,
                 timeTakenMillis = (clock.nanoTime() - connectStartTime).fromNanosToMillis()
             )
-            val mqttException = MqttException(REASON_CODE_UNEXPECTED_ERROR.toInt(), e)
+            val mqttException = MqttException(
+                REASON_CODE_UNEXPECTED_ERROR.toInt(),
+                e
+            )
             runnableScheduler.scheduleMqttHandleExceptionRunnable(mqttException, true)
             wakeLockProvider.releaseWakeLock()
         }
@@ -327,7 +332,12 @@ internal class MqttConnection(
     private fun getUserPropertyList(userPropertiesMap: Map<String, String>): List<UserProperty> {
         val userProperties = mutableListOf<UserProperty>()
         userPropertiesMap.entries.forEach { entry ->
-            userProperties.add(UserProperty(entry.key, entry.value))
+            userProperties.add(
+                UserProperty(
+                    entry.key,
+                    entry.value
+                )
+            )
         }
         return userProperties
     }
@@ -393,7 +403,8 @@ internal class MqttConnection(
             getPahoExperimentsConfig(),
             connectionConfig.mqttInterceptorList
         )
-        val bufferOptions = DisconnectedBufferOptions()
+        val bufferOptions =
+            DisconnectedBufferOptions()
         with(connectionConfig.persistenceOptions as PahoPersistenceOptions) {
             bufferOptions.isBufferEnabled = true
             bufferOptions.isPersistBuffer = true
@@ -484,6 +495,15 @@ internal class MqttConnection(
                     timeTakenMillis = (clock.nanoTime() - subscribeStartTime).fromNanosToMillis()
                 )
                 runnableScheduler.scheduleMqttHandleExceptionRunnable(mqttException, true)
+            } catch (illegalArgumentException: IllegalArgumentException) {
+                connectionConfig.connectionEventHandler.onMqttSubscribeFailure(
+                    topics = topicMap,
+                    throwable = MqttException(
+                        REASON_CODE_INVALID_SUBSCRIPTION.toInt(),
+                        illegalArgumentException
+                    ),
+                    timeTakenMillis = (clock.nanoTime() - subscribeStartTime).fromNanosToMillis()
+                )
             }
         }
     }
@@ -515,12 +535,35 @@ internal class MqttConnection(
             override fun onSuccess(iMqttToken: IMqttToken) {
                 logger.d(TAG, "Subscribe successful. Connect Complete")
                 val context = iMqttToken.userContext as MqttContext
-                connectionConfig.connectionEventHandler.onMqttSubscribeSuccess(
-                    topics = topicMap,
-                    timeTakenMillis = (clock.nanoTime() - context.startTime).fromNanosToMillis()
-                )
+                val successTopicMap = mutableMapOf<String, QoS>()
+                val failTopicMap = mutableMapOf<String, QoS>()
+                iMqttToken.topics.forEachIndexed { index, topic ->
+                    if (128 == (iMqttToken.response as? MqttSuback)?.grantedQos?.getOrNull(index)) {
+                        failTopicMap[topic] = topicMap[topic]!!
+                    } else {
+                        successTopicMap[topic] = topicMap[topic]!!
+                    }
+                }
+
+                if (successTopicMap.isNotEmpty()) {
+                    connectionConfig.connectionEventHandler.onMqttSubscribeSuccess(
+                        topics = successTopicMap,
+                        timeTakenMillis = (clock.nanoTime() - context.startTime).fromNanosToMillis()
+                    )
+                }
+
+                if (failTopicMap.isNotEmpty()) {
+                    connectionConfig.connectionEventHandler.onMqttSubscribeFailure(
+                        topics = failTopicMap,
+                        timeTakenMillis = (clock.nanoTime() - context.startTime).fromNanosToMillis(),
+                        throwable = MqttException(
+                            REASON_CODE_INVALID_SUBSCRIPTION.toInt()
+                        )
+                    )
+                }
+
+                subscriptionStore.getListener().onTopicsSubscribed(successTopicMap)
                 subscriptionPolicy.resetParams()
-                subscriptionStore.getListener().onTopicsSubscribed(topicMap)
             }
 
             override fun onFailure(
@@ -535,7 +578,7 @@ internal class MqttConnection(
                     logger.e(TAG, "Subscribe unsuccessful. Will reconnect again")
                     val context = iMqttToken.userContext as MqttContext
                     connectionConfig.connectionEventHandler.onMqttSubscribeFailure(
-                        topics = topicMap,
+                        topics = subscriptionStore.getSubscribeTopics(),
                         throwable = throwable,
                         timeTakenMillis = (clock.nanoTime() - context.startTime).fromNanosToMillis()
                     )

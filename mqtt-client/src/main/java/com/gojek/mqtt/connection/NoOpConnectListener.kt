@@ -1,9 +1,10 @@
 package com.gojek.mqtt.connection
 
-import org.eclipse.paho.client.mqttv3.IMqttActionListener
-import org.eclipse.paho.client.mqttv3.IMqttToken
+import `in`.mohalla.paho.client.mqttv3.IMqttActionListener
+import `in`.mohalla.paho.client.mqttv3.IMqttToken
 
-internal class NoOpConnectListener : IMqttActionListener {
+internal class NoOpConnectListener :
+    IMqttActionListener {
     override fun onSuccess(asyncActionToken: IMqttToken?) {
     }
 

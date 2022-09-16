@@ -24,10 +24,10 @@ import com.gojek.courier.utils.extensions.addImmutableFlag
 import com.gojek.mqtt.pingsender.IPingSenderEvents
 import com.gojek.mqtt.pingsender.MqttPingSender
 import com.gojek.mqtt.pingsender.NoOpPingSenderEvents
-import org.eclipse.paho.client.mqttv3.ILogger
-import org.eclipse.paho.client.mqttv3.IMqttActionListener
-import org.eclipse.paho.client.mqttv3.IMqttToken
-import org.eclipse.paho.client.mqttv3.internal.ClientComms
+import `in`.mohalla.paho.client.mqttv3.ILogger
+import `in`.mohalla.paho.client.mqttv3.IMqttActionListener
+import `in`.mohalla.paho.client.mqttv3.IMqttToken
+import `in`.mohalla.paho.client.mqttv3.internal.ClientComms
 
 /**
  * Default ping sender implementation on Android. It is based on AlarmManager.
@@ -234,7 +234,8 @@ internal class AlarmPingSender(
                 )
             }
             val sTime = clock.nanoTime()
-            token.actionCallback = object : IMqttActionListener {
+            token.actionCallback = object :
+                IMqttActionListener {
                 override fun onSuccess(asyncActionToken: IMqttToken) {
                     logger.d(
                         TAG,

@@ -10,9 +10,9 @@ import com.gojek.mqtt.persistence.model.MqttPahoPacket
 import com.gojek.mqtt.persistence.model.MqttReceivePacket
 import java.util.Collections
 import java.util.Enumeration
-import org.eclipse.paho.client.mqttv3.MqttClientPersistence
-import org.eclipse.paho.client.mqttv3.MqttPersistable
-import org.eclipse.paho.client.mqttv3.internal.MqttPersistentData
+import `in`.mohalla.paho.client.mqttv3.MqttClientPersistence
+import `in`.mohalla.paho.client.mqttv3.MqttPersistable
+import `in`.mohalla.paho.client.mqttv3.internal.MqttPersistentData
 
 internal class PahoPersistence(private val context: Context) :
     MqttClientPersistence, IMqttReceivePersistence {

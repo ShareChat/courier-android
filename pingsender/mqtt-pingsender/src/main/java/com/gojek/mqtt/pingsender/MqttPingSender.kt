@@ -1,9 +1,9 @@
 package com.gojek.mqtt.pingsender
 
 import androidx.annotation.RestrictTo
-import org.eclipse.paho.client.mqttv3.ILogger
-import org.eclipse.paho.client.mqttv3.MqttPingSender as PahoPingSender
-import org.eclipse.paho.client.mqttv3.internal.ClientComms
+import `in`.mohalla.paho.client.mqttv3.ILogger
+import `in`.mohalla.paho.client.mqttv3.MqttPingSender as PahoPingSender
+import `in`.mohalla.paho.client.mqttv3.internal.ClientComms
 
 interface MqttPingSender {
     fun init(comms: ClientComms, logger: ILogger)

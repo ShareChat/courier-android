@@ -7,22 +7,22 @@ import com.gojek.chuckmqtt.internal.utils.formatBody
 import com.gojek.chuckmqtt.internal.utils.formatByteCount
 import java.text.DateFormat
 import kotlin.text.Charsets.UTF_8
-import org.eclipse.paho.client.mqttv3.MqttMessage
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttConnack
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttConnect
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttDisconnect
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttPingReq
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttPingResp
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttPubAck
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttPubComp
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttPubRec
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttPubRel
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttPublish
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttSuback
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttSubscribe
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttUnsubAck
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttUnsubscribe
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage
+import `in`.mohalla.paho.client.mqttv3.MqttMessage
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttConnack
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttConnect
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttDisconnect
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttPingReq
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttPingResp
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttPubAck
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttPubComp
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttPubRec
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttPubRel
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttPublish
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttSuback
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttSubscribe
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttUnsubAck
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttUnsubscribe
+import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttWireMessage
 
 internal class MqttTransactionUiModelMapper : Mapper<MqttTransactionDomainModel, MqttTransactionUiModel> {
     override fun map(input: MqttTransactionDomainModel): MqttTransactionUiModel {

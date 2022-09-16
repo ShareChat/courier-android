@@ -77,9 +77,9 @@ import com.gojek.mqtt.wakelock.WakeLockProvider
 import com.gojek.networktracker.NetworkStateTracker
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.TimeUnit
-import org.eclipse.paho.client.mqttv3.MqttException
-import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
-import org.eclipse.paho.client.mqttv3.MqttPersistenceException
+import `in`.mohalla.paho.client.mqttv3.MqttException
+import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
+import `in`.mohalla.paho.client.mqttv3.MqttPersistenceException
 
 internal class AndroidMqttClient(
     private val context: Context,
@@ -217,7 +217,7 @@ internal class AndroidMqttClient(
 
     // This can be invoked on any thread
     override fun reconnect() {
-        mqttConfiguration.eventHandler.onEvent(MqttReconnectEvent())
+        mqttConfiguration.eventHandler.onEvent(MqttReconnectEvent(activeNetInfo = networkHandler.getActiveNetworkInfo()))
         runnableScheduler.disconnectMqtt(true)
     }
 
@@ -379,7 +379,11 @@ internal class AndroidMqttClient(
             if (e.nextRetrySeconds > 0) {
                 runnableScheduler.connectMqtt(TimeUnit.SECONDS.toMillis(e.nextRetrySeconds))
             } else {
-                val mqttException = MqttException(REASON_CODE_UNEXPECTED_ERROR.toInt(), e)
+                val mqttException =
+                    MqttException(
+                        REASON_CODE_UNEXPECTED_ERROR.toInt(),
+                        e
+                    )
                 runnableScheduler.scheduleMqttHandleExceptionRunnable(mqttException, true)
             }
         } catch (e: Exception) /* this exception cannot be thrown on connect */ {
@@ -392,14 +396,17 @@ internal class AndroidMqttClient(
                     timeTakenMillis = (clock.nanoTime() - startTime).fromNanosToMillis()
                 )
             )
-            val mqttException = MqttException(REASON_CODE_UNEXPECTED_ERROR.toInt(), e)
+            val mqttException = MqttException(
+                REASON_CODE_UNEXPECTED_ERROR.toInt(),
+                e
+            )
             runnableScheduler.scheduleMqttHandleExceptionRunnable(mqttException, true)
         }
     }
 
     // This runs on Mqtt thread
     override fun disconnectMqtt(clearState: Boolean) {
-        mqttConfiguration.eventHandler.onEvent(MqttDisconnectEvent())
+        mqttConfiguration.eventHandler.onEvent(MqttDisconnectEvent(activeNetInfo = networkHandler.getActiveNetworkInfo(),))
         mqttConnection.disconnect()
         if (clearState) {
             mqttConnection.shutDown()
