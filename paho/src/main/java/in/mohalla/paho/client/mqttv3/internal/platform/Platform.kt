@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.paho.client.mqttv3.internal.platform
+package `in`.mohalla.paho.client.mqttv3.internal.platform
 
 import java.io.IOException
 import java.net.InetSocketAddress
@@ -31,12 +31,12 @@ import javax.net.ssl.TrustManager
 import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 import okio.Buffer
-import org.eclipse.paho.client.mqttv3.Protocol
-import org.eclipse.paho.client.mqttv3.internal.tls.BasicCertificateChainCleaner
-import org.eclipse.paho.client.mqttv3.internal.tls.BasicTrustRootIndex
-import org.eclipse.paho.client.mqttv3.internal.tls.CertificateChainCleaner
-import org.eclipse.paho.client.mqttv3.internal.tls.TrustRootIndex
-import org.eclipse.paho.client.mqttv3.readFieldOrNull
+import `in`.mohalla.paho.client.mqttv3.Protocol
+import `in`.mohalla.paho.client.mqttv3.internal.tls.BasicCertificateChainCleaner
+import `in`.mohalla.paho.client.mqttv3.internal.tls.BasicTrustRootIndex
+import `in`.mohalla.paho.client.mqttv3.internal.tls.CertificateChainCleaner
+import `in`.mohalla.paho.client.mqttv3.internal.tls.TrustRootIndex
+import `in`.mohalla.paho.client.mqttv3.readFieldOrNull
 
 /**
  * Access to platform-specific features.

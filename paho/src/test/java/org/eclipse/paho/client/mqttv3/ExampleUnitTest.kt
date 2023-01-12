@@ -1,4 +1,4 @@
-package org.eclipse.paho.client.mqttv3
+package `in`.mohalla.paho.client.mqttv3
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

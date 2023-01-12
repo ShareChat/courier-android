@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.paho.client.mqttv3.internal.platform.android
+package `in`.mohalla.paho.client.mqttv3.internal.platform.android
 
 import javax.net.ssl.SSLSocket
 import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.X509TrustManager
-import org.eclipse.paho.client.mqttv3.Protocol
+import `in`.mohalla.paho.client.mqttv3.Protocol
 
 interface SocketAdapter {
     fun isSupported(): Boolean

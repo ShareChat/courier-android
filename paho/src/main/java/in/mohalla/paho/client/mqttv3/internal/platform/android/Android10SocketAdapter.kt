@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.paho.client.mqttv3.internal.platform.android
+package `in`.mohalla.paho.client.mqttv3.internal.platform.android
 
 import android.annotation.SuppressLint
 import android.net.ssl.SSLSockets
 import android.os.Build
 import java.io.IOException
 import javax.net.ssl.SSLSocket
-import org.eclipse.paho.client.mqttv3.Protocol
-import org.eclipse.paho.client.mqttv3.SuppressSignatureCheck
-import org.eclipse.paho.client.mqttv3.internal.platform.Platform
-import org.eclipse.paho.client.mqttv3.internal.platform.Platform.Companion.isAndroid
+import `in`.mohalla.paho.client.mqttv3.Protocol
+import `in`.mohalla.paho.client.mqttv3.SuppressSignatureCheck
+import `in`.mohalla.paho.client.mqttv3.internal.platform.Platform
+import `in`.mohalla.paho.client.mqttv3.internal.platform.Platform.Companion.isAndroid
 
 /**
  * Simple non-reflection SocketAdapter for Android Q+.

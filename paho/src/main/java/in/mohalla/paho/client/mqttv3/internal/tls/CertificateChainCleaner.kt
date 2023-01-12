@@ -14,13 +14,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.eclipse.paho.client.mqttv3.internal.tls
+package `in`.mohalla.paho.client.mqttv3.internal.tls
 
 import java.security.cert.Certificate
 import java.security.cert.X509Certificate
 import javax.net.ssl.SSLPeerUnverifiedException
 import javax.net.ssl.X509TrustManager
-import org.eclipse.paho.client.mqttv3.internal.platform.Platform
+import `in`.mohalla.paho.client.mqttv3.internal.platform.Platform
 
 /**
  * Computes the effective certificate chain from the raw array returned by Java's built in TLS APIs.

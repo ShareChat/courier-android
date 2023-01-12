@@ -1,4 +1,4 @@
-package org.eclipse.paho.client.mqttv3
+package `in`.mohalla.paho.client.mqttv3
 
 data class Protocol(
     val name: String

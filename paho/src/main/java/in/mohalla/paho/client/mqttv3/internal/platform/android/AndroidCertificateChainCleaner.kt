@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.paho.client.mqttv3.internal.platform.android
+package `in`.mohalla.paho.client.mqttv3.internal.platform.android
 
 import android.net.http.X509TrustManagerExtensions
 import java.security.cert.Certificate
@@ -21,8 +21,8 @@ import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
 import javax.net.ssl.SSLPeerUnverifiedException
 import javax.net.ssl.X509TrustManager
-import org.eclipse.paho.client.mqttv3.SuppressSignatureCheck
-import org.eclipse.paho.client.mqttv3.internal.tls.CertificateChainCleaner
+import `in`.mohalla.paho.client.mqttv3.SuppressSignatureCheck
+import `in`.mohalla.paho.client.mqttv3.internal.tls.CertificateChainCleaner
 
 /**
  * Android implementation of CertificateChainCleaner using direct Android API calls.

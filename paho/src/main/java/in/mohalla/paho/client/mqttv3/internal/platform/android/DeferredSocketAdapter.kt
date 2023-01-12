@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.paho.client.mqttv3.internal.platform.android
+package `in`.mohalla.paho.client.mqttv3.internal.platform.android
 
 import javax.net.ssl.SSLSocket
-import org.eclipse.paho.client.mqttv3.Protocol
+import `in`.mohalla.paho.client.mqttv3.Protocol
 
 /**
  * Deferred implementation of SocketAdapter that works by observing the socket

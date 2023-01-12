@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.paho.client.mqttv3.internal.platform
+package `in`.mohalla.paho.client.mqttv3.internal.platform
 
 import java.security.KeyStore
 import java.security.Provider
@@ -24,7 +24,7 @@ import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 import org.bouncycastle.jsse.BCSSLSocket
 import org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
-import org.eclipse.paho.client.mqttv3.Protocol
+import `in`.mohalla.paho.client.mqttv3.Protocol
 
 /**
  * Platform using BouncyCastle if installed as the first Security Provider.

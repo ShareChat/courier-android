@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.paho.client.mqttv3.internal.platform.android
+package `in`.mohalla.paho.client.mqttv3.internal.platform.android
 
 import javax.net.ssl.SSLSocket
 import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.X509TrustManager
-import org.eclipse.paho.client.mqttv3.internal.platform.Platform
-import org.eclipse.paho.client.mqttv3.readFieldOrNull
+import `in`.mohalla.paho.client.mqttv3.internal.platform.Platform
+import `in`.mohalla.paho.client.mqttv3.readFieldOrNull
 
 /**
  * Base Android reflection based SocketAdapter for the built in Android SSLSocket.

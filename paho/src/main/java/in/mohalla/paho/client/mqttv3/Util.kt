@@ -1,4 +1,4 @@
-package org.eclipse.paho.client.mqttv3
+package `in`.mohalla.paho.client.mqttv3
 
 internal fun <T> readFieldOrNull(instance: Any, fieldType: Class<T>, fieldName: String): T? {
     var c: Class<*> = instance.javaClass

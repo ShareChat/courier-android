@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.paho.client.mqttv3
+package `in`.mohalla.paho.client.mqttv3
 
 import java.util.Arrays
 import java.util.Objects
 import javax.net.ssl.SSLSocket
-import org.eclipse.paho.client.mqttv3.ConnectionSpec.Builder
-import org.eclipse.paho.client.mqttv3.internal.tls.CipherSuite
-import org.eclipse.paho.client.mqttv3.internal.tls.TlsVersion
+import `in`.mohalla.paho.client.mqttv3.ConnectionSpec.Builder
+import `in`.mohalla.paho.client.mqttv3.internal.tls.CipherSuite
+import `in`.mohalla.paho.client.mqttv3.internal.tls.TlsVersion
 
 /**
  * Specifies configuration for the socket connection that HTTP traffic travels through. For `https:`

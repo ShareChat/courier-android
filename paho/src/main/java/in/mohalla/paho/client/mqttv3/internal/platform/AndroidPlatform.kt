@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.paho.client.mqttv3.internal.platform
+package `in`.mohalla.paho.client.mqttv3.internal.platform
 
 import android.os.Build
 import android.security.NetworkSecurityPolicy
@@ -27,16 +27,16 @@ import java.security.cert.X509Certificate
 import javax.net.ssl.SSLSocket
 import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.X509TrustManager
-import org.eclipse.paho.client.mqttv3.Protocol
-import org.eclipse.paho.client.mqttv3.SuppressSignatureCheck
-import org.eclipse.paho.client.mqttv3.internal.platform.android.AndroidCertificateChainCleaner
-import org.eclipse.paho.client.mqttv3.internal.platform.android.AndroidSocketAdapter
-import org.eclipse.paho.client.mqttv3.internal.platform.android.BouncyCastleSocketAdapter
-import org.eclipse.paho.client.mqttv3.internal.platform.android.ConscryptSocketAdapter
-import org.eclipse.paho.client.mqttv3.internal.platform.android.DeferredSocketAdapter
-import org.eclipse.paho.client.mqttv3.internal.platform.android.StandardAndroidSocketAdapter
-import org.eclipse.paho.client.mqttv3.internal.tls.CertificateChainCleaner
-import org.eclipse.paho.client.mqttv3.internal.tls.TrustRootIndex
+import `in`.mohalla.paho.client.mqttv3.Protocol
+import `in`.mohalla.paho.client.mqttv3.SuppressSignatureCheck
+import `in`.mohalla.paho.client.mqttv3.internal.platform.android.AndroidCertificateChainCleaner
+import `in`.mohalla.paho.client.mqttv3.internal.platform.android.AndroidSocketAdapter
+import `in`.mohalla.paho.client.mqttv3.internal.platform.android.BouncyCastleSocketAdapter
+import `in`.mohalla.paho.client.mqttv3.internal.platform.android.ConscryptSocketAdapter
+import `in`.mohalla.paho.client.mqttv3.internal.platform.android.DeferredSocketAdapter
+import `in`.mohalla.paho.client.mqttv3.internal.platform.android.StandardAndroidSocketAdapter
+import `in`.mohalla.paho.client.mqttv3.internal.tls.CertificateChainCleaner
+import `in`.mohalla.paho.client.mqttv3.internal.tls.TrustRootIndex
 
 /** Android 5+. */
 @SuppressSignatureCheck

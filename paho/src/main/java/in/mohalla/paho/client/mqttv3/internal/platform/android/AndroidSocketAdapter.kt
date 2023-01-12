@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.paho.client.mqttv3.internal.platform.android
+package `in`.mohalla.paho.client.mqttv3.internal.platform.android
 
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import javax.net.ssl.SSLSocket
-import org.eclipse.paho.client.mqttv3.Protocol
-import org.eclipse.paho.client.mqttv3.internal.platform.AndroidPlatform
-import org.eclipse.paho.client.mqttv3.internal.platform.Platform
-import org.eclipse.paho.client.mqttv3.internal.platform.android.DeferredSocketAdapter.Factory
+import `in`.mohalla.paho.client.mqttv3.Protocol
+import `in`.mohalla.paho.client.mqttv3.internal.platform.AndroidPlatform
+import `in`.mohalla.paho.client.mqttv3.internal.platform.Platform
+import `in`.mohalla.paho.client.mqttv3.internal.platform.android.DeferredSocketAdapter.Factory
 
 /**
  * Modern reflection based SocketAdapter for Conscrypt class SSLSockets.

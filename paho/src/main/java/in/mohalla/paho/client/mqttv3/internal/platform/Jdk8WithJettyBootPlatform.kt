@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.paho.client.mqttv3.internal.platform
+package `in`.mohalla.paho.client.mqttv3.internal.platform
 
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy
 import javax.net.ssl.SSLSocket
-import org.eclipse.paho.client.mqttv3.Protocol
+import `in`.mohalla.paho.client.mqttv3.Protocol
 
 /** OpenJDK 8 with `org.mortbay.jetty.alpn:alpn-boot` in the boot class path. */
 class Jdk8WithJettyBootPlatform(

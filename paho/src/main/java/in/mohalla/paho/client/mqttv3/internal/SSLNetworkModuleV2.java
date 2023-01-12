@@ -13,15 +13,15 @@
  * Contributors:
  *    Dave Locke - initial API and implementation and/or initial documentation
  */
-package org.eclipse.paho.client.mqttv3.internal;
+package in.mohalla.paho.client.mqttv3.internal;
 
-import org.eclipse.paho.client.mqttv3.ConnectionSpec;
-import org.eclipse.paho.client.mqttv3.ILogger;
-import org.eclipse.paho.client.mqttv3.IPahoEvents;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.Protocol;
-import org.eclipse.paho.client.mqttv3.internal.platform.Platform;
-import org.eclipse.paho.client.mqttv3.internal.tls.CertificateChainCleaner;
+import in.mohalla.paho.client.mqttv3.ConnectionSpec;
+import in.mohalla.paho.client.mqttv3.ILogger;
+import in.mohalla.paho.client.mqttv3.IPahoEvents;
+import in.mohalla.paho.client.mqttv3.MqttException;
+import in.mohalla.paho.client.mqttv3.Protocol;
+import in.mohalla.paho.client.mqttv3.internal.platform.Platform;
+import in.mohalla.paho.client.mqttv3.internal.tls.CertificateChainCleaner;
 
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLSocket;

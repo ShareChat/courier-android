@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.paho.client.mqttv3.internal.tls
+package `in`.mohalla.paho.client.mqttv3.internal.tls
 
 import java.security.cert.X509Certificate
 

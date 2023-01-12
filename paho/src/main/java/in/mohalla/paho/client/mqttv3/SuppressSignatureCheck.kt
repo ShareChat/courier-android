@@ -1,4 +1,4 @@
-package org.eclipse.paho.client.mqttv3
+package `in`.mohalla.paho.client.mqttv3
 
 import java.lang.annotation.Documented
 import kotlin.annotation.AnnotationRetention.BINARY

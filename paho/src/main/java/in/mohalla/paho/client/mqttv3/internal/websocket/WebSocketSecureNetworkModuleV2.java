@@ -13,15 +13,15 @@
  * Contributors:
  *    James Sutton - Bug 459142 - WebSocket support for the Java client.
  */
-package org.eclipse.paho.client.mqttv3.internal.websocket;
+package in.mohalla.paho.client.mqttv3.internal.websocket;
 
-import org.eclipse.paho.client.mqttv3.ConnectionSpec;
-import org.eclipse.paho.client.mqttv3.ILogger;
-import org.eclipse.paho.client.mqttv3.IPahoEvents;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.Protocol;
-import org.eclipse.paho.client.mqttv3.internal.SSLNetworkModuleV2;
-import org.eclipse.paho.client.mqttv3.internal.tls.CertificateChainCleaner;
+import in.mohalla.paho.client.mqttv3.ConnectionSpec;
+import in.mohalla.paho.client.mqttv3.ILogger;
+import in.mohalla.paho.client.mqttv3.IPahoEvents;
+import in.mohalla.paho.client.mqttv3.MqttException;
+import in.mohalla.paho.client.mqttv3.Protocol;
+import in.mohalla.paho.client.mqttv3.internal.SSLNetworkModuleV2;
+import in.mohalla.paho.client.mqttv3.internal.tls.CertificateChainCleaner;
 
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLSocketFactory;

@@ -15,7 +15,7 @@
  */
 package in.mohalla.paho.client.mqttv3;
 
-import org.eclipse.paho.client.mqttv3.internal.tls.CertificateChainCleaner;
+import in.mohalla.paho.client.mqttv3.internal.tls.CertificateChainCleaner;
 import in.mohalla.paho.client.mqttv3.internal.wire.UserProperty;
 
 import java.net.URI;
