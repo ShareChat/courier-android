@@ -7,12 +7,6 @@ import com.gojek.mqtt.scheduler.IRunnableScheduler
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import java.net.SocketException
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
-import java.nio.channels.UnresolvedAddressException
-import java.util.Random
-import javax.net.ssl.SSLHandshakeException
 import `in`.mohalla.paho.client.mqttv3.MqttException
 import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_BROKER_UNAVAILABLE
 import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_CLIENT_ALREADY_DISCONNECTED
@@ -37,6 +31,12 @@ import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_SOCKET_FACTORY_
 import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_SSL_CONFIG_ERROR
 import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_TOKEN_INUSE
 import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
+import java.net.SocketException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
+import java.nio.channels.UnresolvedAddressException
+import java.util.Random
+import javax.net.ssl.SSLHandshakeException
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.verifyNoInteractions

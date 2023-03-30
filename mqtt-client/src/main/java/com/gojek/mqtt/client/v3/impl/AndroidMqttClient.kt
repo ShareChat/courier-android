@@ -76,11 +76,11 @@ import com.gojek.mqtt.utils.MqttUtils
 import com.gojek.mqtt.utils.NetworkUtils
 import com.gojek.mqtt.wakelock.WakeLockProvider
 import com.gojek.networktracker.NetworkStateTracker
-import java.nio.charset.StandardCharsets
-import java.util.concurrent.TimeUnit
 import `in`.mohalla.paho.client.mqttv3.MqttException
 import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
 import `in`.mohalla.paho.client.mqttv3.MqttPersistenceException
+import java.nio.charset.StandardCharsets
+import java.util.concurrent.TimeUnit
 
 internal class AndroidMqttClient(
     private val context: Context,
