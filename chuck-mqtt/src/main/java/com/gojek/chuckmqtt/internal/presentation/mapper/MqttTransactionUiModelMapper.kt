@@ -24,7 +24,8 @@ import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttUnsubAck
 import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttUnsubscribe
 import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttWireMessage
 
-internal class MqttTransactionUiModelMapper : Mapper<MqttTransactionDomainModel, MqttTransactionUiModel> {
+internal class MqttTransactionUiModelMapper :
+    Mapper<MqttTransactionDomainModel, MqttTransactionUiModel> {
     override fun map(input: MqttTransactionDomainModel): MqttTransactionUiModel {
         return with(input) {
             MqttTransactionUiModel(
@@ -161,7 +162,8 @@ internal class MqttTransactionUiModelMapper : Mapper<MqttTransactionDomainModel,
         return when (mqttWireMessage) {
             is MqttPublish -> {
                 formatBody(String(mqttWireMessage.message.payload, UTF_8))
-            } else -> ""
+            }
+            else -> ""
         }
     }
 
