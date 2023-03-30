@@ -5,8 +5,6 @@ import com.gojek.chuckmqtt.internal.domain.model.MqttTransactionDomainModel
 import com.gojek.chuckmqtt.internal.presentation.model.MqttTransactionUiModel
 import com.gojek.chuckmqtt.internal.utils.formatBody
 import com.gojek.chuckmqtt.internal.utils.formatByteCount
-import java.text.DateFormat
-import kotlin.text.Charsets.UTF_8
 import `in`.mohalla.paho.client.mqttv3.MqttMessage
 import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttConnack
 import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttConnect
@@ -23,6 +21,8 @@ import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttSubscribe
 import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttUnsubAck
 import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttUnsubscribe
 import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttWireMessage
+import java.text.DateFormat
+import kotlin.text.Charsets.UTF_8
 
 internal class MqttTransactionUiModelMapper :
     Mapper<MqttTransactionDomainModel, MqttTransactionUiModel> {
