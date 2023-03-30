@@ -15,12 +15,12 @@
  */
 package `in`.mohalla.paho.client.mqttv3.internal.platform.android
 
-import javax.net.ssl.SSLSocket
-import org.bouncycastle.jsse.BCSSLSocket
 import `in`.mohalla.paho.client.mqttv3.Protocol
 import `in`.mohalla.paho.client.mqttv3.internal.platform.BouncyCastlePlatform
 import `in`.mohalla.paho.client.mqttv3.internal.platform.Platform
 import `in`.mohalla.paho.client.mqttv3.internal.platform.android.DeferredSocketAdapter.Factory
+import javax.net.ssl.SSLSocket
+import org.bouncycastle.jsse.BCSSLSocket
 
 /**
  * Simple non-reflection SocketAdapter for BouncyCastle.

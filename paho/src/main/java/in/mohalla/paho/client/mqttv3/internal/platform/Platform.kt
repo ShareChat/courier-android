@@ -16,6 +16,12 @@
  */
 package `in`.mohalla.paho.client.mqttv3.internal.platform
 
+import `in`.mohalla.paho.client.mqttv3.Protocol
+import `in`.mohalla.paho.client.mqttv3.internal.tls.BasicCertificateChainCleaner
+import `in`.mohalla.paho.client.mqttv3.internal.tls.BasicTrustRootIndex
+import `in`.mohalla.paho.client.mqttv3.internal.tls.CertificateChainCleaner
+import `in`.mohalla.paho.client.mqttv3.internal.tls.TrustRootIndex
+import `in`.mohalla.paho.client.mqttv3.readFieldOrNull
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
@@ -31,12 +37,6 @@ import javax.net.ssl.TrustManager
 import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 import okio.Buffer
-import `in`.mohalla.paho.client.mqttv3.Protocol
-import `in`.mohalla.paho.client.mqttv3.internal.tls.BasicCertificateChainCleaner
-import `in`.mohalla.paho.client.mqttv3.internal.tls.BasicTrustRootIndex
-import `in`.mohalla.paho.client.mqttv3.internal.tls.CertificateChainCleaner
-import `in`.mohalla.paho.client.mqttv3.internal.tls.TrustRootIndex
-import `in`.mohalla.paho.client.mqttv3.readFieldOrNull
 
 /**
  * Access to platform-specific features.

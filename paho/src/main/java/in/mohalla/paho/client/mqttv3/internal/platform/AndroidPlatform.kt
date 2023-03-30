@@ -17,16 +17,6 @@ package `in`.mohalla.paho.client.mqttv3.internal.platform
 
 import android.os.Build
 import android.security.NetworkSecurityPolicy
-import java.io.IOException
-import java.lang.reflect.InvocationTargetException
-import java.lang.reflect.Method
-import java.net.InetSocketAddress
-import java.net.Socket
-import java.security.cert.TrustAnchor
-import java.security.cert.X509Certificate
-import javax.net.ssl.SSLSocket
-import javax.net.ssl.SSLSocketFactory
-import javax.net.ssl.X509TrustManager
 import `in`.mohalla.paho.client.mqttv3.Protocol
 import `in`.mohalla.paho.client.mqttv3.SuppressSignatureCheck
 import `in`.mohalla.paho.client.mqttv3.internal.platform.android.AndroidCertificateChainCleaner
@@ -37,6 +27,16 @@ import `in`.mohalla.paho.client.mqttv3.internal.platform.android.DeferredSocketA
 import `in`.mohalla.paho.client.mqttv3.internal.platform.android.StandardAndroidSocketAdapter
 import `in`.mohalla.paho.client.mqttv3.internal.tls.CertificateChainCleaner
 import `in`.mohalla.paho.client.mqttv3.internal.tls.TrustRootIndex
+import java.io.IOException
+import java.lang.reflect.InvocationTargetException
+import java.lang.reflect.Method
+import java.net.InetSocketAddress
+import java.net.Socket
+import java.security.cert.TrustAnchor
+import java.security.cert.X509Certificate
+import javax.net.ssl.SSLSocket
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.X509TrustManager
 
 /** Android 5+. */
 @SuppressSignatureCheck

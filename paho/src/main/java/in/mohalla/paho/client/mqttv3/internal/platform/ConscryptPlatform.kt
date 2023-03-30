@@ -15,6 +15,7 @@
  */
 package `in`.mohalla.paho.client.mqttv3.internal.platform
 
+import `in`.mohalla.paho.client.mqttv3.Protocol
 import java.security.KeyStore
 import java.security.Provider
 import java.security.cert.X509Certificate
@@ -27,7 +28,6 @@ import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 import org.conscrypt.Conscrypt
 import org.conscrypt.ConscryptHostnameVerifier
-import `in`.mohalla.paho.client.mqttv3.Protocol
 
 /**
  * Platform using Conscrypt (conscrypt.org) if installed as the first Security Provider.

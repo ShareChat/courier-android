@@ -15,6 +15,7 @@
  */
 package `in`.mohalla.paho.client.mqttv3.internal.platform
 
+import `in`.mohalla.paho.client.mqttv3.Protocol
 import java.security.KeyStore
 import java.security.Provider
 import javax.net.ssl.SSLContext
@@ -24,7 +25,6 @@ import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 import org.bouncycastle.jsse.BCSSLSocket
 import org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
-import `in`.mohalla.paho.client.mqttv3.Protocol
 
 /**
  * Platform using BouncyCastle if installed as the first Security Provider.

@@ -15,10 +15,10 @@
  */
 package `in`.mohalla.paho.client.mqttv3.internal.platform.android
 
+import `in`.mohalla.paho.client.mqttv3.Protocol
 import javax.net.ssl.SSLSocket
 import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.X509TrustManager
-import `in`.mohalla.paho.client.mqttv3.Protocol
 
 interface SocketAdapter {
     fun isSupported(): Boolean

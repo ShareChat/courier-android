@@ -15,13 +15,13 @@
  */
 package `in`.mohalla.paho.client.mqttv3.internal.platform.android
 
-import java.lang.reflect.InvocationTargetException
-import java.lang.reflect.Method
-import javax.net.ssl.SSLSocket
 import `in`.mohalla.paho.client.mqttv3.Protocol
 import `in`.mohalla.paho.client.mqttv3.internal.platform.AndroidPlatform
 import `in`.mohalla.paho.client.mqttv3.internal.platform.Platform
 import `in`.mohalla.paho.client.mqttv3.internal.platform.android.DeferredSocketAdapter.Factory
+import java.lang.reflect.InvocationTargetException
+import java.lang.reflect.Method
+import javax.net.ssl.SSLSocket
 
 /**
  * Modern reflection based SocketAdapter for Conscrypt class SSLSockets.

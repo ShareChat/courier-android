@@ -19,9 +19,6 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.security.NetworkSecurityPolicy
 import android.util.CloseGuard
-import javax.net.ssl.SSLSocket
-import javax.net.ssl.SSLSocketFactory
-import javax.net.ssl.X509TrustManager
 import `in`.mohalla.paho.client.mqttv3.Protocol
 import `in`.mohalla.paho.client.mqttv3.SuppressSignatureCheck
 import `in`.mohalla.paho.client.mqttv3.internal.platform.android.Android10SocketAdapter
@@ -31,6 +28,9 @@ import `in`.mohalla.paho.client.mqttv3.internal.platform.android.BouncyCastleSoc
 import `in`.mohalla.paho.client.mqttv3.internal.platform.android.ConscryptSocketAdapter
 import `in`.mohalla.paho.client.mqttv3.internal.platform.android.DeferredSocketAdapter
 import `in`.mohalla.paho.client.mqttv3.internal.tls.CertificateChainCleaner
+import javax.net.ssl.SSLSocket
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.X509TrustManager
 
 /** Android 29+. */
 @SuppressSignatureCheck

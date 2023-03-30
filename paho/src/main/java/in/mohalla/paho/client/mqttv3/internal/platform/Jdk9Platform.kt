@@ -15,13 +15,13 @@
  */
 package `in`.mohalla.paho.client.mqttv3.internal.platform
 
+import `in`.mohalla.paho.client.mqttv3.Protocol
+import `in`.mohalla.paho.client.mqttv3.SuppressSignatureCheck
 import java.security.NoSuchAlgorithmException
 import javax.net.ssl.SSLContext
 import javax.net.ssl.SSLSocket
 import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.X509TrustManager
-import `in`.mohalla.paho.client.mqttv3.Protocol
-import `in`.mohalla.paho.client.mqttv3.SuppressSignatureCheck
 
 /** OpenJDK 9+. */
 open class Jdk9Platform : Platform() {

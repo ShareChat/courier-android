@@ -15,8 +15,8 @@
  */
 package `in`.mohalla.paho.client.mqttv3.internal.platform.android
 
-import javax.net.ssl.SSLSocket
 import `in`.mohalla.paho.client.mqttv3.Protocol
+import javax.net.ssl.SSLSocket
 
 /**
  * Deferred implementation of SocketAdapter that works by observing the socket

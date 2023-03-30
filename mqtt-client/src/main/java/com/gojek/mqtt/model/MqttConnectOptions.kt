@@ -2,12 +2,12 @@ package com.gojek.mqtt.model
 
 import com.gojek.mqtt.model.KeepAlive.Companion.NO_KEEP_ALIVE
 import com.gojek.mqtt.model.MqttVersion.VERSION_3_1_1
-import javax.net.SocketFactory
-import javax.net.ssl.SSLSocketFactory
-import javax.net.ssl.X509TrustManager
 import `in`.mohalla.paho.client.mqttv3.ConnectionSpec
 import `in`.mohalla.paho.client.mqttv3.Protocol
 import `in`.mohalla.paho.client.mqttv3.internal.platform.Platform
+import javax.net.SocketFactory
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.X509TrustManager
 
 class MqttConnectOptions private constructor(
     builder: Builder

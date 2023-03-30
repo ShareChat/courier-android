@@ -15,11 +15,11 @@
  */
 package `in`.mohalla.paho.client.mqttv3.internal.platform.android
 
+import `in`.mohalla.paho.client.mqttv3.internal.platform.Platform
+import `in`.mohalla.paho.client.mqttv3.readFieldOrNull
 import javax.net.ssl.SSLSocket
 import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.X509TrustManager
-import `in`.mohalla.paho.client.mqttv3.internal.platform.Platform
-import `in`.mohalla.paho.client.mqttv3.readFieldOrNull
 
 /**
  * Base Android reflection based SocketAdapter for the built in Android SSLSocket.

@@ -15,12 +15,12 @@
  */
 package `in`.mohalla.paho.client.mqttv3.internal.platform.android
 
-import javax.net.ssl.SSLSocket
-import org.conscrypt.Conscrypt
 import `in`.mohalla.paho.client.mqttv3.Protocol
 import `in`.mohalla.paho.client.mqttv3.internal.platform.ConscryptPlatform
 import `in`.mohalla.paho.client.mqttv3.internal.platform.Platform
 import `in`.mohalla.paho.client.mqttv3.internal.platform.android.DeferredSocketAdapter.Factory
+import javax.net.ssl.SSLSocket
+import org.conscrypt.Conscrypt
 
 /**
  * Simple non-reflection SocketAdapter for Conscrypt when included as an application dependency

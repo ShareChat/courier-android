@@ -18,12 +18,12 @@ package `in`.mohalla.paho.client.mqttv3.internal.platform.android
 import android.annotation.SuppressLint
 import android.net.ssl.SSLSockets
 import android.os.Build
-import java.io.IOException
-import javax.net.ssl.SSLSocket
 import `in`.mohalla.paho.client.mqttv3.Protocol
 import `in`.mohalla.paho.client.mqttv3.SuppressSignatureCheck
 import `in`.mohalla.paho.client.mqttv3.internal.platform.Platform
 import `in`.mohalla.paho.client.mqttv3.internal.platform.Platform.Companion.isAndroid
+import java.io.IOException
+import javax.net.ssl.SSLSocket
 
 /**
  * Simple non-reflection SocketAdapter for Android Q+.

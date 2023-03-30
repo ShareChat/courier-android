@@ -15,12 +15,12 @@
  */
 package `in`.mohalla.paho.client.mqttv3
 
-import java.util.Arrays
-import java.util.Objects
-import javax.net.ssl.SSLSocket
 import `in`.mohalla.paho.client.mqttv3.ConnectionSpec.Builder
 import `in`.mohalla.paho.client.mqttv3.internal.tls.CipherSuite
 import `in`.mohalla.paho.client.mqttv3.internal.tls.TlsVersion
+import java.util.Arrays
+import java.util.Objects
+import javax.net.ssl.SSLSocket
 
 /**
  * Specifies configuration for the socket connection that HTTP traffic travels through. For `https:`
