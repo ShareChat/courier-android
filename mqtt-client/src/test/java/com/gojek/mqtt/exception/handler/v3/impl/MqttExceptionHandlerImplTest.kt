@@ -6,7 +6,6 @@ import com.gojek.mqtt.policies.connectretrytime.IConnectRetryTimePolicy
 import com.gojek.mqtt.scheduler.IRunnableScheduler
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import com.nhaarman.mockitokotlin2.whenever
 import java.net.SocketException
 import java.net.SocketTimeoutException
@@ -40,6 +39,7 @@ import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_TOKEN_INUSE
 import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.verifyNoInteractions
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -216,7 +216,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_CLIENT_ALREADY_DISCONNECTED.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, false)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -234,7 +234,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_CLIENT_DISCONNECTING.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, false)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -252,7 +252,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_CLIENT_NOT_CONNECTED.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, false)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -270,7 +270,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_CLIENT_TIMEOUT.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, false)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -279,7 +279,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_CONNECT_IN_PROGRESS.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -308,7 +308,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_CONNECTION_LOST.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, false)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -317,7 +317,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_MAX_INFLIGHT.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -326,7 +326,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_CLIENT_CLOSED.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -335,7 +335,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_CLIENT_CONNECTED.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -344,7 +344,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_CLIENT_DISCONNECT_PROHIBITED.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -353,7 +353,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_INVALID_CLIENT_ID.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -362,7 +362,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_INVALID_MESSAGE.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -371,7 +371,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_INVALID_PROTOCOL_VERSION.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -380,7 +380,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_NO_MESSAGE_IDS_AVAILABLE.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -389,7 +389,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_SOCKET_FACTORY_MISMATCH.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -398,7 +398,7 @@ class MqttExceptionHandlerImplTest {
             REASON_CODE_SSL_CONFIG_ERROR.toInt()
         )
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 
     @Test
@@ -406,6 +406,6 @@ class MqttExceptionHandlerImplTest {
         val exception =
             MqttException(REASON_CODE_TOKEN_INUSE.toInt())
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verifyZeroInteractions(runnableScheduler, connectRetryTimePolicy)
+        verifyNoInteractions(runnableScheduler, connectRetryTimePolicy)
     }
 }

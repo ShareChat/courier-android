@@ -3,17 +3,25 @@ package com.gojek.courier.coordinator
 import com.gojek.courier.Message
 import com.gojek.courier.MessageAdapter
 import com.gojek.courier.QoS
+import com.gojek.courier.Stream
+import com.gojek.courier.Stream.Disposable
+import com.gojek.courier.Stream.Observer
 import com.gojek.courier.logging.ILogger
 import com.gojek.courier.stub.StubInterface
 import com.gojek.courier.stub.StubMethod
 import com.gojek.courier.utils.toStream
 import com.gojek.mqtt.client.MqttClient
 import com.gojek.mqtt.client.listener.MessageListener
+import com.gojek.mqtt.client.model.ConnectionState
 import com.gojek.mqtt.client.model.MqttMessage
+import com.gojek.mqtt.event.EventHandler
+import com.gojek.mqtt.event.MqttEvent
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.FlowableOnSubscribe
 import io.reactivex.schedulers.Schedulers
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
 
 internal class Coordinator(
     private val client: MqttClient,
@@ -23,9 +31,9 @@ internal class Coordinator(
     @Synchronized
     override fun send(stubMethod: StubMethod.Send, args: Array<Any>): Any {
         val data = stubMethod.argumentProcessor.getDataArgument(args)
-        val message = stubMethod.messageAdapter.toMessage(data)
         stubMethod.argumentProcessor.inject(args)
         val topic = stubMethod.argumentProcessor.getTopic()
+        val message = stubMethod.messageAdapter.toMessage(topic, data)
         return client.send(message, topic, stubMethod.qos)
     }
 
@@ -50,9 +58,13 @@ internal class Coordinator(
         )
 
         val stream = flowable
-            .map { it.message }
             .observeOn(Schedulers.computation())
-            .flatMap { message -> message.adapt(stubMethod.messageAdapter)?.let { Flowable.just(it) } ?: Flowable.empty() }
+            .flatMap { mqttMessage ->
+                mqttMessage.message.adapt(
+                    mqttMessage.topic,
+                    stubMethod.messageAdapter
+                )?.let { Flowable.just(it) } ?: Flowable.empty()
+            }
             .toStream()
         return stubMethod.streamAdapter.adapt(stream)
     }
@@ -87,9 +99,13 @@ internal class Coordinator(
         )
 
         val stream = flowable
-            .map { it.message }
             .observeOn(Schedulers.computation())
-            .flatMap { message -> message.adapt(stubMethod.messageAdapter)?.let { Flowable.just(it) } ?: Flowable.empty() }
+            .flatMap { mqttMessage ->
+                mqttMessage.message.adapt(
+                    mqttMessage.topic,
+                    stubMethod.messageAdapter
+                )?.let { Flowable.just(it) } ?: Flowable.empty()
+            }
             .toStream()
         return stubMethod.streamAdapter.adapt(stream)
     }
@@ -113,9 +129,62 @@ internal class Coordinator(
         }
     }
 
-    private fun <T> Message.adapt(messageAdapter: MessageAdapter<T>): T? {
+    override fun getEventStream(): Stream<MqttEvent> {
+        return object : Stream<MqttEvent> {
+            override fun start(observer: Observer<MqttEvent>): Disposable {
+                val eventHandler = object : EventHandler {
+                    override fun onEvent(mqttEvent: MqttEvent) {
+                        try {
+                            observer.onNext(mqttEvent)
+                        } catch (throwable: Throwable) {
+                            observer.onError(throwable)
+                        }
+                    }
+                }
+                client.addEventHandler(eventHandler)
+                var isDisposed = false
+                return object : Disposable {
+                    override fun dispose() {
+                        client.removeEventHandler(eventHandler)
+                        isDisposed = true
+                    }
+
+                    override fun isDisposed(): Boolean {
+                        return isDisposed
+                    }
+                }
+            }
+
+            override fun subscribe(s: Subscriber<in MqttEvent>) {
+                val eventHandler = object : EventHandler {
+                    override fun onEvent(mqttEvent: MqttEvent) {
+                        try {
+                            s.onNext(mqttEvent)
+                        } catch (throwable: Throwable) {
+                            s.onError(throwable)
+                        }
+                    }
+                }
+                s.onSubscribe(object : Subscription {
+                    override fun request(n: Long) {
+                        client.addEventHandler(eventHandler)
+                    }
+
+                    override fun cancel() {
+                        client.removeEventHandler(eventHandler)
+                    }
+                })
+            }
+        }
+    }
+
+    override fun getConnectionState(): ConnectionState {
+        return client.getCurrentState()
+    }
+
+    private fun <T> Message.adapt(topic: String, messageAdapter: MessageAdapter<T>): T? {
         return try {
-            val message = messageAdapter.fromMessage(this)
+            val message = messageAdapter.fromMessage(topic, this)
             logger.d("Coordinator", "Message after parsing: $message")
             message
         } catch (th: Throwable) {
