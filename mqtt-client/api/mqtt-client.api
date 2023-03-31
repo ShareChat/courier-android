@@ -418,13 +418,14 @@ public final class com/gojek/mqtt/event/MqttEvent$MqttConnectionLostEvent : com/
 }
 
 public final class com/gojek/mqtt/event/MqttEvent$MqttDisconnectCompleteEvent : com/gojek/mqtt/event/MqttEvent {
-	public fun <init> ()V
-	public fun <init> (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
-	public synthetic fun <init> (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
-	public final fun copy (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectCompleteEvent;
-	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectCompleteEvent;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectCompleteEvent;
+	public fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
+	public synthetic fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/gojek/mqtt/network/ActiveNetInfo;
+	public final fun component2 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
+	public final fun copy (Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectCompleteEvent;
+	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectCompleteEvent;Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectCompleteEvent;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActiveNetInfo ()Lcom/gojek/mqtt/network/ActiveNetInfo;
 	public fun getConnectionInfo ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
 	public fun hashCode ()I
 	public fun setConnectionInfo (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
@@ -432,13 +433,14 @@ public final class com/gojek/mqtt/event/MqttEvent$MqttDisconnectCompleteEvent : 
 }
 
 public final class com/gojek/mqtt/event/MqttEvent$MqttDisconnectEvent : com/gojek/mqtt/event/MqttEvent {
-	public fun <init> ()V
-	public fun <init> (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
-	public synthetic fun <init> (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
-	public final fun copy (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectEvent;
-	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectEvent;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectEvent;
+	public fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
+	public synthetic fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/gojek/mqtt/network/ActiveNetInfo;
+	public final fun component2 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
+	public final fun copy (Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectEvent;
+	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectEvent;Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectEvent;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActiveNetInfo ()Lcom/gojek/mqtt/network/ActiveNetInfo;
 	public fun getConnectionInfo ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
 	public fun hashCode ()I
 	public fun setConnectionInfo (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
@@ -446,13 +448,14 @@ public final class com/gojek/mqtt/event/MqttEvent$MqttDisconnectEvent : com/goje
 }
 
 public final class com/gojek/mqtt/event/MqttEvent$MqttDisconnectStartEvent : com/gojek/mqtt/event/MqttEvent {
-	public fun <init> ()V
-	public fun <init> (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
-	public synthetic fun <init> (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
-	public final fun copy (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectStartEvent;
-	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectStartEvent;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectStartEvent;
+	public fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
+	public synthetic fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/gojek/mqtt/network/ActiveNetInfo;
+	public final fun component2 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
+	public final fun copy (Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectStartEvent;
+	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectStartEvent;Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttDisconnectStartEvent;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActiveNetInfo ()Lcom/gojek/mqtt/network/ActiveNetInfo;
 	public fun getConnectionInfo ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
 	public fun hashCode ()I
 	public fun setConnectionInfo (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
@@ -673,13 +676,14 @@ public final class com/gojek/mqtt/event/MqttEvent$MqttPingSuccessEvent : com/goj
 }
 
 public final class com/gojek/mqtt/event/MqttEvent$MqttReconnectEvent : com/gojek/mqtt/event/MqttEvent {
-	public fun <init> ()V
-	public fun <init> (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
-	public synthetic fun <init> (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
-	public final fun copy (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttReconnectEvent;
-	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttReconnectEvent;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttReconnectEvent;
+	public fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
+	public synthetic fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/gojek/mqtt/network/ActiveNetInfo;
+	public final fun component2 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
+	public final fun copy (Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttReconnectEvent;
+	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttReconnectEvent;Lcom/gojek/mqtt/network/ActiveNetInfo;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttReconnectEvent;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActiveNetInfo ()Lcom/gojek/mqtt/network/ActiveNetInfo;
 	public fun getConnectionInfo ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
 	public fun hashCode ()I
 	public fun setConnectionInfo (Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
@@ -687,13 +691,15 @@ public final class com/gojek/mqtt/event/MqttEvent$MqttReconnectEvent : com/gojek
 }
 
 public final class com/gojek/mqtt/event/MqttEvent$MqttSubscribeAttemptEvent : com/gojek/mqtt/event/MqttEvent {
-	public fun <init> (Ljava/util/Map;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
-	public synthetic fun <init> (Ljava/util/Map;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/util/Map;
-	public final fun component2 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
-	public final fun copy (Ljava/util/Map;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeAttemptEvent;
-	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeAttemptEvent;Ljava/util/Map;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeAttemptEvent;
+	public fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Map;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
+	public synthetic fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Map;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/gojek/mqtt/network/ActiveNetInfo;
+	public final fun component2 ()Ljava/util/Map;
+	public final fun component3 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
+	public final fun copy (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Map;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeAttemptEvent;
+	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeAttemptEvent;Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Map;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeAttemptEvent;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActiveNetInfo ()Lcom/gojek/mqtt/network/ActiveNetInfo;
 	public fun getConnectionInfo ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
 	public final fun getTopics ()Ljava/util/Map;
 	public fun hashCode ()I
@@ -702,15 +708,17 @@ public final class com/gojek/mqtt/event/MqttEvent$MqttSubscribeAttemptEvent : co
 }
 
 public final class com/gojek/mqtt/event/MqttEvent$MqttSubscribeFailureEvent : com/gojek/mqtt/event/MqttEvent {
-	public fun <init> (Ljava/util/Map;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
-	public synthetic fun <init> (Ljava/util/Map;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/util/Map;
-	public final fun component2 ()Lcom/gojek/mqtt/exception/CourierException;
-	public final fun component3 ()J
-	public final fun component4 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
-	public final fun copy (Ljava/util/Map;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeFailureEvent;
-	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeFailureEvent;Ljava/util/Map;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeFailureEvent;
+	public fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Map;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
+	public synthetic fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Map;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/gojek/mqtt/network/ActiveNetInfo;
+	public final fun component2 ()Ljava/util/Map;
+	public final fun component3 ()Lcom/gojek/mqtt/exception/CourierException;
+	public final fun component4 ()J
+	public final fun component5 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
+	public final fun copy (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Map;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeFailureEvent;
+	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeFailureEvent;Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Map;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeFailureEvent;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActiveNetInfo ()Lcom/gojek/mqtt/network/ActiveNetInfo;
 	public fun getConnectionInfo ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
 	public final fun getException ()Lcom/gojek/mqtt/exception/CourierException;
 	public final fun getTimeTakenMillis ()J
@@ -721,14 +729,16 @@ public final class com/gojek/mqtt/event/MqttEvent$MqttSubscribeFailureEvent : co
 }
 
 public final class com/gojek/mqtt/event/MqttEvent$MqttSubscribeSuccessEvent : com/gojek/mqtt/event/MqttEvent {
-	public fun <init> (Ljava/util/Map;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
-	public synthetic fun <init> (Ljava/util/Map;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/util/Map;
-	public final fun component2 ()J
-	public final fun component3 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
-	public final fun copy (Ljava/util/Map;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeSuccessEvent;
-	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeSuccessEvent;Ljava/util/Map;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeSuccessEvent;
+	public fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Map;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
+	public synthetic fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Map;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/gojek/mqtt/network/ActiveNetInfo;
+	public final fun component2 ()Ljava/util/Map;
+	public final fun component3 ()J
+	public final fun component4 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
+	public final fun copy (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Map;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeSuccessEvent;
+	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeSuccessEvent;Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Map;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttSubscribeSuccessEvent;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActiveNetInfo ()Lcom/gojek/mqtt/network/ActiveNetInfo;
 	public fun getConnectionInfo ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
 	public final fun getTimeTakenMillis ()J
 	public final fun getTopics ()Ljava/util/Map;
@@ -738,13 +748,15 @@ public final class com/gojek/mqtt/event/MqttEvent$MqttSubscribeSuccessEvent : co
 }
 
 public final class com/gojek/mqtt/event/MqttEvent$MqttUnsubscribeAttemptEvent : com/gojek/mqtt/event/MqttEvent {
-	public fun <init> (Ljava/util/Set;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
-	public synthetic fun <init> (Ljava/util/Set;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/util/Set;
-	public final fun component2 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
-	public final fun copy (Ljava/util/Set;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeAttemptEvent;
-	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeAttemptEvent;Ljava/util/Set;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeAttemptEvent;
+	public fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Set;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
+	public synthetic fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Set;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/gojek/mqtt/network/ActiveNetInfo;
+	public final fun component2 ()Ljava/util/Set;
+	public final fun component3 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
+	public final fun copy (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Set;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeAttemptEvent;
+	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeAttemptEvent;Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Set;Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeAttemptEvent;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActiveNetInfo ()Lcom/gojek/mqtt/network/ActiveNetInfo;
 	public fun getConnectionInfo ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
 	public final fun getTopics ()Ljava/util/Set;
 	public fun hashCode ()I
@@ -753,15 +765,17 @@ public final class com/gojek/mqtt/event/MqttEvent$MqttUnsubscribeAttemptEvent : 
 }
 
 public final class com/gojek/mqtt/event/MqttEvent$MqttUnsubscribeFailureEvent : com/gojek/mqtt/event/MqttEvent {
-	public fun <init> (Ljava/util/Set;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
-	public synthetic fun <init> (Ljava/util/Set;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/util/Set;
-	public final fun component2 ()Lcom/gojek/mqtt/exception/CourierException;
-	public final fun component3 ()J
-	public final fun component4 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
-	public final fun copy (Ljava/util/Set;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeFailureEvent;
-	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeFailureEvent;Ljava/util/Set;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeFailureEvent;
+	public fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Set;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
+	public synthetic fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Set;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/gojek/mqtt/network/ActiveNetInfo;
+	public final fun component2 ()Ljava/util/Set;
+	public final fun component3 ()Lcom/gojek/mqtt/exception/CourierException;
+	public final fun component4 ()J
+	public final fun component5 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
+	public final fun copy (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Set;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeFailureEvent;
+	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeFailureEvent;Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Set;Lcom/gojek/mqtt/exception/CourierException;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeFailureEvent;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActiveNetInfo ()Lcom/gojek/mqtt/network/ActiveNetInfo;
 	public fun getConnectionInfo ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
 	public final fun getException ()Lcom/gojek/mqtt/exception/CourierException;
 	public final fun getTimeTakenMillis ()J
@@ -772,14 +786,16 @@ public final class com/gojek/mqtt/event/MqttEvent$MqttUnsubscribeFailureEvent : 
 }
 
 public final class com/gojek/mqtt/event/MqttEvent$MqttUnsubscribeSuccessEvent : com/gojek/mqtt/event/MqttEvent {
-	public fun <init> (Ljava/util/Set;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
-	public synthetic fun <init> (Ljava/util/Set;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/util/Set;
-	public final fun component2 ()J
-	public final fun component3 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
-	public final fun copy (Ljava/util/Set;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeSuccessEvent;
-	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeSuccessEvent;Ljava/util/Set;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeSuccessEvent;
+	public fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Set;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)V
+	public synthetic fun <init> (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Set;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/gojek/mqtt/network/ActiveNetInfo;
+	public final fun component2 ()Ljava/util/Set;
+	public final fun component3 ()J
+	public final fun component4 ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
+	public final fun copy (Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Set;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;)Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeSuccessEvent;
+	public static synthetic fun copy$default (Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeSuccessEvent;Lcom/gojek/mqtt/network/ActiveNetInfo;Ljava/util/Set;JLcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;ILjava/lang/Object;)Lcom/gojek/mqtt/event/MqttEvent$MqttUnsubscribeSuccessEvent;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActiveNetInfo ()Lcom/gojek/mqtt/network/ActiveNetInfo;
 	public fun getConnectionInfo ()Lcom/gojek/mqtt/client/connectioninfo/ConnectionInfo;
 	public final fun getTimeTakenMillis ()J
 	public final fun getTopics ()Ljava/util/Set;
@@ -1030,7 +1046,7 @@ public final class com/gojek/mqtt/model/MqttConnectOptions {
 	public static final field Companion Lcom/gojek/mqtt/model/MqttConnectOptions$Companion;
 	public synthetic fun <init> (Lcom/gojek/mqtt/model/MqttConnectOptions$Builder;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getClientId ()Ljava/lang/String;
-	public final fun getConnectionSpec ()Lorg/eclipse/paho/client/mqttv3/ConnectionSpec;
+	public final fun getConnectionSpec ()Lin/mohalla/paho/client/mqttv3/ConnectionSpec;
 	public final fun getKeepAlive ()Lcom/gojek/mqtt/model/KeepAlive;
 	public final fun getPassword ()Ljava/lang/String;
 	public final fun getProtocols ()Ljava/util/List;
@@ -1052,7 +1068,7 @@ public final class com/gojek/mqtt/model/MqttConnectOptions$Builder {
 	public final fun build ()Lcom/gojek/mqtt/model/MqttConnectOptions;
 	public final fun cleanSession (Z)Lcom/gojek/mqtt/model/MqttConnectOptions$Builder;
 	public final fun clientId (Ljava/lang/String;)Lcom/gojek/mqtt/model/MqttConnectOptions$Builder;
-	public final fun connectionSpec (Lorg/eclipse/paho/client/mqttv3/ConnectionSpec;)Lcom/gojek/mqtt/model/MqttConnectOptions$Builder;
+	public final fun connectionSpec (Lin/mohalla/paho/client/mqttv3/ConnectionSpec;)Lcom/gojek/mqtt/model/MqttConnectOptions$Builder;
 	public final fun keepAlive (Lcom/gojek/mqtt/model/KeepAlive;)Lcom/gojek/mqtt/model/MqttConnectOptions$Builder;
 	public final fun mqttVersion (Lcom/gojek/mqtt/model/MqttVersion;)Lcom/gojek/mqtt/model/MqttConnectOptions$Builder;
 	public final fun password (Ljava/lang/String;)Lcom/gojek/mqtt/model/MqttConnectOptions$Builder;
