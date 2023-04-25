@@ -3,6 +3,8 @@ package com.gojek.mqtt.connection
 import android.content.Context
 import android.os.SystemClock
 import com.gojek.courier.QoS
+import com.gojek.courier.QoS.ONE_WITHOUT_PERSISTENCE_AND_NO_RETRY
+import com.gojek.courier.QoS.ONE_WITHOUT_PERSISTENCE_AND_RETRY
 import com.gojek.courier.extensions.fromNanosToMillis
 import com.gojek.courier.logging.ILogger
 import com.gojek.courier.utils.Clock
@@ -44,6 +46,7 @@ import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERRO
 import `in`.mohalla.paho.client.mqttv3.MqttMessage
 import `in`.mohalla.paho.client.mqttv3.MqttSecurityException
 import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttSuback
+import `in`.mohalla.paho.client.mqttv3.internal.wire.SubscribeFlags
 import `in`.mohalla.paho.client.mqttv3.internal.wire.UserProperty
 
 internal class MqttConnection(
@@ -217,26 +220,22 @@ internal class MqttConnection(
                 serverUri,
                 timeTakenMillis = (clock.nanoTime() - connectStartTime).fromNanosToMillis()
             )
-            val mqttException = MqttException(
-                REASON_CODE_UNEXPECTED_ERROR.toInt(),
-                e
-            )
+            val mqttException = MqttException(REASON_CODE_UNEXPECTED_ERROR.toInt(), e)
             runnableScheduler.scheduleMqttHandleExceptionRunnable(mqttException, true)
             wakeLockProvider.releaseWakeLock()
         }
     }
 
     override fun publish(
-        mqttPacket: MqttSendPacket,
-        qos: Int,
-        topic: String
+        mqttPacket: MqttSendPacket
     ) {
         logger.d(TAG, "Current inflight msg count : " + mqtt!!.inflightMessages)
 
-        mqtt!!.publish(
-            topic,
+        mqtt!!.publishWithNewType(
+            mqttPacket.topic,
             mqttPacket.message,
-            qos,
+            mqttPacket.qos,
+            mqttPacket.type,
             false,
             mqttPacket,
             object : IMqttActionListenerNew {
@@ -331,12 +330,7 @@ internal class MqttConnection(
     private fun getUserPropertyList(userPropertiesMap: Map<String, String>): List<UserProperty> {
         val userProperties = mutableListOf<UserProperty>()
         userPropertiesMap.entries.forEach { entry ->
-            userProperties.add(
-                UserProperty(
-                    entry.key,
-                    entry.value
-                )
-            )
+            userProperties.add(UserProperty(entry.key, entry.value))
         }
         return userProperties
     }
@@ -402,8 +396,7 @@ internal class MqttConnection(
             getPahoExperimentsConfig(),
             connectionConfig.mqttInterceptorList
         )
-        val bufferOptions =
-            DisconnectedBufferOptions()
+        val bufferOptions = DisconnectedBufferOptions()
         with(connectionConfig.persistenceOptions as PahoPersistenceOptions) {
             bufferOptions.isBufferEnabled = true
             bufferOptions.isPersistBuffer = true
@@ -474,16 +467,35 @@ internal class MqttConnection(
         if (topicMap.isNotEmpty()) {
             val topicArray: Array<String> = topicMap.keys.toTypedArray()
             val qosArray = IntArray(topicMap.size)
+            val subscribeFlagList = ArrayList<SubscribeFlags>(topicMap.size)
             for ((index, qos) in topicMap.values.withIndex()) {
-                qosArray[index] = qos.value
+                if (qos == ONE_WITHOUT_PERSISTENCE_AND_NO_RETRY || qos == ONE_WITHOUT_PERSISTENCE_AND_RETRY) {
+                    qosArray[index] = 1
+                } else {
+                    qosArray[index] = qos.value
+                }
+            }
+            for ((index, qos) in topicMap.values.withIndex()) {
+                when (qos) {
+                    ONE_WITHOUT_PERSISTENCE_AND_NO_RETRY -> {
+                        subscribeFlagList.add(index, SubscribeFlags(false, false))
+                    }
+                    ONE_WITHOUT_PERSISTENCE_AND_RETRY -> {
+                        subscribeFlagList.add(index, SubscribeFlags(false, true))
+                    }
+                    else -> {
+                        subscribeFlagList.add(index, SubscribeFlags(true, true))
+                    }
+                }
             }
             val subscribeStartTime = clock.nanoTime()
             try {
                 logger.d(TAG, "Subscribing to topics: ${topicMap.keys}")
                 connectionConfig.connectionEventHandler.onMqttSubscribeAttempt(topicMap)
-                mqtt!!.subscribe(
+                mqtt!!.subscribeWithPersistableRetryableFlags(
                     topicArray,
                     qosArray,
+                    subscribeFlagList,
                     MqttContext(subscribeStartTime),
                     getSubscribeListener(topicMap)
                 )
@@ -555,9 +567,7 @@ internal class MqttConnection(
                     connectionConfig.connectionEventHandler.onMqttSubscribeFailure(
                         topics = failTopicMap,
                         timeTakenMillis = (clock.nanoTime() - context.startTime).fromNanosToMillis(),
-                        throwable = MqttException(
-                            REASON_CODE_INVALID_SUBSCRIPTION.toInt()
-                        )
+                        throwable = MqttException(MqttException.REASON_CODE_INVALID_SUBSCRIPTION.toInt())
                     )
                 }
 
@@ -577,7 +587,7 @@ internal class MqttConnection(
                     logger.e(TAG, "Subscribe unsuccessful. Will reconnect again")
                     val context = iMqttToken.userContext as MqttContext
                     connectionConfig.connectionEventHandler.onMqttSubscribeFailure(
-                        topics = subscriptionStore.getSubscribeTopics(),
+                        topics = topicMap,
                         throwable = throwable,
                         timeTakenMillis = (clock.nanoTime() - context.startTime).fromNanosToMillis()
                     )
