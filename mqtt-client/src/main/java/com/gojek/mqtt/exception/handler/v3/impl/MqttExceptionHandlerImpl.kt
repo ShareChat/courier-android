@@ -5,13 +5,13 @@ import com.gojek.mqtt.constants.SERVER_UNAVAILABLE_MAX_CONNECT_TIME
 import com.gojek.mqtt.exception.handler.v3.MqttExceptionHandler
 import com.gojek.mqtt.policies.connectretrytime.IConnectRetryTimePolicy
 import com.gojek.mqtt.scheduler.IRunnableScheduler
+import `in`.mohalla.paho.client.mqttv3.MqttException
 import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.nio.channels.UnresolvedAddressException
 import java.util.Random
 import javax.net.ssl.SSLHandshakeException
-import `in`.mohalla.paho.client.mqttv3.MqttException
 
 internal class MqttExceptionHandlerImpl(
     private val runnableScheduler: IRunnableScheduler,

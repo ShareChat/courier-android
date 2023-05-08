@@ -5,8 +5,6 @@ import com.gojek.chuckmqtt.internal.domain.model.MqttTransactionDomainModel
 import com.gojek.chuckmqtt.internal.presentation.model.MqttTransactionUiModel
 import com.gojek.chuckmqtt.internal.utils.formatBody
 import com.gojek.chuckmqtt.internal.utils.formatByteCount
-import java.text.DateFormat
-import kotlin.text.Charsets.UTF_8
 import `in`.mohalla.paho.client.mqttv3.MqttMessage
 import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttConnack
 import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttConnect
@@ -23,8 +21,11 @@ import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttSubscribe
 import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttUnsubAck
 import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttUnsubscribe
 import `in`.mohalla.paho.client.mqttv3.internal.wire.MqttWireMessage
+import java.text.DateFormat
+import kotlin.text.Charsets.UTF_8
 
-internal class MqttTransactionUiModelMapper : Mapper<MqttTransactionDomainModel, MqttTransactionUiModel> {
+internal class MqttTransactionUiModelMapper :
+    Mapper<MqttTransactionDomainModel, MqttTransactionUiModel> {
     override fun map(input: MqttTransactionDomainModel): MqttTransactionUiModel {
         return with(input) {
             MqttTransactionUiModel(
@@ -161,7 +162,8 @@ internal class MqttTransactionUiModelMapper : Mapper<MqttTransactionDomainModel,
         return when (mqttWireMessage) {
             is MqttPublish -> {
                 formatBody(String(mqttWireMessage.message.payload, UTF_8))
-            } else -> ""
+            }
+            else -> ""
         }
     }
 
@@ -202,7 +204,7 @@ internal class MqttTransactionUiModelMapper : Mapper<MqttTransactionDomainModel,
             is MqttPublish -> {
                 sb.append("PUBLISH \n")
                 sb.append("Qos : ${mqttWireMessage.message.qos} \n")
-                if (mqttWireMessage.message.qos > 0) {
+                if (mqttWireMessage.message.qos > 0 || mqttWireMessage.message.type > 2) {
                     sb.append("MsgId : ${mqttWireMessage.messageId} \n")
                 }
                 sb.append("Retained : ${mqttWireMessage.message.isRetained} \n")

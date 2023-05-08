@@ -8,11 +8,11 @@ import com.gojek.mqtt.persistence.dao.PahoMessagesDao
 import com.gojek.mqtt.persistence.db.MqttDatabase
 import com.gojek.mqtt.persistence.model.MqttPahoPacket
 import com.gojek.mqtt.persistence.model.MqttReceivePacket
-import java.util.Collections
-import java.util.Enumeration
 import `in`.mohalla.paho.client.mqttv3.MqttClientPersistence
 import `in`.mohalla.paho.client.mqttv3.MqttPersistable
 import `in`.mohalla.paho.client.mqttv3.internal.MqttPersistentData
+import java.util.Collections
+import java.util.Enumeration
 
 internal class PahoPersistence(private val context: Context) :
     MqttClientPersistence, IMqttReceivePersistence {
