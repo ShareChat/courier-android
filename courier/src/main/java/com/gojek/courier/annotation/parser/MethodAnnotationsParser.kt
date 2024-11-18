@@ -1,6 +1,7 @@
 package com.gojek.courier.annotation.parser
 
 import com.gojek.courier.QoS
+import com.gojek.courier.annotation.Callback
 import com.gojek.courier.annotation.Data
 import com.gojek.courier.annotation.Path
 import com.gojek.courier.annotation.Receive
@@ -13,6 +14,7 @@ import com.gojek.courier.argument.processor.ReceiveArgumentProcessor
 import com.gojek.courier.argument.processor.SendArgumentProcessor
 import com.gojek.courier.argument.processor.SubscriptionArgumentProcessor
 import com.gojek.courier.argument.processor.UnsubscriptionArgumentProcessor
+import com.gojek.courier.callback.SendMessageCallback
 import com.gojek.courier.stub.StubMethod
 import com.gojek.courier.utils.MessageAdapterResolver
 import com.gojek.courier.utils.StreamAdapterResolver
@@ -87,7 +89,8 @@ internal class MethodAnnotationsParser(
         val messageType = method.getDataParameterType(dataParameterIndex)
         val annotations = method.getDataParameterAnnotations(dataParameterIndex)
         val adapter = messageAdapterResolver.resolve(messageType, annotations)
-        val argumentProcessor = SendArgumentProcessor(pathMap, topic, dataParameterIndex)
+        val callbackIndex = method.getCallbackParameterIndex()
+        val argumentProcessor = SendArgumentProcessor(pathMap, topic, dataParameterIndex, callbackIndex)
         stubMethod = StubMethod.Send(adapter, qos, argumentProcessor)
     }
 
@@ -134,28 +137,40 @@ internal class MethodAnnotationsParser(
     }
 
     private fun parseSubscribeAllMethodAnnotations(method: Method) {
-        method.requireReturnTypeIsOneOf(Void.TYPE) {
-            "SubscribeAll method must return Void: $method"
-        }
-        method.requireParameterTypes(ParameterizedType::class.java) {
-            "Only one argument with parameterized type is allowed"
+        method.requireReturnTypeIsOneOf(Void.TYPE, ParameterizedType::class.java) {
+            "Subscribe method must return Void or ParameterizedType: $method"
         }
         val annotations = method.parameterAnnotations[0].filter { it.isParameterAnnotation() }
         require(annotations.size == 1) {
             "A parameter must have one and only one parameter annotation"
         }
         require(method.parameterTypes[0] == Map::class.java) {
-            "Parameter should be of Map<String, Qos> type $method"
+            "Parameter should be of Map<String, QoS> type $method"
         }
         val actualTypeArguments =
             (method.genericParameterTypes[0] as ParameterizedType).actualTypeArguments
         require(actualTypeArguments[0] == String::class.java) {
-            "Parameter should be of Map<String, Qos> type $method"
+            "Parameter should be of Map<String, QoS> type $method"
         }
         require(actualTypeArguments[1].getRawType() == QoS::class.java) {
-            "Parameter should be of Map<String, Qos> type $method"
+            "Parameter should be of Map<String, QoS> type $method"
         }
-        stubMethod = StubMethod.SubscribeAll
+
+        if (method.genericReturnType == Void.TYPE) {
+            stubMethod = StubMethod.SubscribeAll
+        } else {
+            method.requireReturnTypeIsResolvable {
+                "Method return type must not include a type variable or wildcard: ${method.genericReturnType}"
+            }
+
+            val streamType = method.genericReturnType as ParameterizedType
+            val messageType = streamType.getFirstTypeArgument()
+
+            val streamAdapter = streamAdapterResolver.resolve(streamType)
+            val messageAdapter = messageAdapterResolver.resolve(messageType, method.annotations)
+
+            stubMethod = StubMethod.SubscribeAllWithStream(messageAdapter, streamAdapter)
+        }
     }
 
     private fun parseUnsubscribeMethodAnnotations(method: Method) {
@@ -226,7 +241,7 @@ internal class MethodAnnotationsParser(
         private val PARAM_NAME_REGEX = Pattern.compile(PARAM)
 
         private fun Annotation.isParameterAnnotation(): Boolean {
-            return this is Path || this is Data || this is TopicMap
+            return this is Path || this is Data || this is TopicMap || this is Callback
         }
 
         private fun Annotation.isStubMethodAnnotation(): Boolean {
@@ -264,6 +279,29 @@ internal class MethodAnnotationsParser(
             }
             if (index == -1) {
                 throw IllegalArgumentException("No parameter found with @Data annotation")
+            }
+            return index
+        }
+
+        private fun Method.getCallbackParameterIndex(): Int {
+            var index = -1
+            for (parameterIndex in parameterAnnotations.indices) {
+                val parameterAnnotations = parameterAnnotations[parameterIndex]
+                val annotations = parameterAnnotations.filter { it.isParameterAnnotation() }
+                require(annotations.size == 1) {
+                    "A parameter must have one and only one parameter annotation: $parameterIndex"
+                }
+                if (annotations.first() is Callback) {
+                    if (index == -1) {
+                        index = parameterIndex
+                        break
+                    } else {
+                        throw IllegalArgumentException("Multiple parameters found with @Callback annotation")
+                    }
+                }
+            }
+            if (index != -1 && parameterTypes[index] != SendMessageCallback::class.java) {
+                throw IllegalArgumentException("Parameter annotated with @Callback should be of type SendMessageCallback: ${parameterTypes[index]}")
             }
             return index
         }

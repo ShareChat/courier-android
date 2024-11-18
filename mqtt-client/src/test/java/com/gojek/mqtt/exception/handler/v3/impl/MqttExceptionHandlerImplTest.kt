@@ -37,6 +37,31 @@ import java.net.UnknownHostException
 import java.nio.channels.UnresolvedAddressException
 import java.util.Random
 import javax.net.ssl.SSLHandshakeException
+import org.eclipse.paho.client.mqttv3.MqttException
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_BROKER_UNAVAILABLE
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_CLIENT_ALREADY_DISCONNECTED
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_CLIENT_CLOSED
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_CLIENT_CONNECTED
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_CLIENT_DISCONNECTING
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_CLIENT_DISCONNECT_PROHIBITED
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_CLIENT_EXCEPTION
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_CLIENT_NOT_CONNECTED
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_CLIENT_TIMEOUT
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_CONNECTION_LOST
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_CONNECT_IN_PROGRESS
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_FAILED_AUTHENTICATION
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_INVALID_CLIENT_ID
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_INVALID_CONNECT_OPTIONS
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_INVALID_MESSAGE
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_INVALID_PROTOCOL_VERSION
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_MAX_INFLIGHT
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_NOT_AUTHORIZED
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_NO_MESSAGE_IDS_AVAILABLE
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_SERVER_CONNECT_ERROR
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_SOCKET_FACTORY_MISMATCH
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_SSL_CONFIG_ERROR
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_TOKEN_INUSE
+import org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_UNEXPECTED_ERROR
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.verifyNoInteractions
@@ -177,8 +202,9 @@ class MqttExceptionHandlerImplTest {
         val exception = MqttException(
             REASON_CODE_FAILED_AUTHENTICATION.toInt()
         )
+        whenever(connectRetryTimePolicy.getConnRetryTimeSecs(true)).thenReturn(20)
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verify(runnableScheduler).scheduleAuthFailureRunnable()
+        verify(runnableScheduler).scheduleAuthFailureRunnable(20000)
     }
 
     @Test
@@ -186,8 +212,17 @@ class MqttExceptionHandlerImplTest {
         val exception = MqttException(
             REASON_CODE_NOT_AUTHORIZED.toInt()
         )
+        whenever(connectRetryTimePolicy.getConnRetryTimeSecs(true)).thenReturn(20)
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verify(runnableScheduler).scheduleAuthFailureRunnable()
+        verify(runnableScheduler).scheduleAuthFailureRunnable(20000)
+    }
+
+    @Test
+    fun `test exception with reason code 32205`() {
+        val exception = MqttException(REASON_CODE_INVALID_CONNECT_OPTIONS.toInt())
+        whenever(connectRetryTimePolicy.getConnRetryTimeSecs(true)).thenReturn(20)
+        mqttExceptionHandlerImpl.handleException(exception, true)
+        verify(runnableScheduler).scheduleAuthFailureRunnable(20000)
     }
 
     @Test

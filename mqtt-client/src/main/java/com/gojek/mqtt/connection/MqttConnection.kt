@@ -129,8 +129,9 @@ internal class MqttConnection(
             }
 
             val clientId: String = connectOptions.clientId
+            val username: String = connectOptions.username
             serverUri = getServerUri()
-            logger.d(TAG, "clientId : $clientId  serverUri $serverUri")
+            logger.d(TAG, "clientId : $clientId, username: $username,  serverUri $serverUri")
             if (mqtt == null) {
                 mqtt = getMqttAsyncClient(clientId, serverUri.toString())
                 mqtt!!.setCallback(getMqttCallback(messageReceiveListener))
@@ -183,6 +184,16 @@ internal class MqttConnection(
                 connectionSpec = mqttConnectOptions.connectionSpec
                 alpnProtocolList = mqttConnectOptions.protocols
             }
+
+            mqttConnectOptions.will?.apply {
+                options!!.setWill(
+                    topic,
+                    message.toByteArray(),
+                    qos.value,
+                    retained
+                )
+            }
+
             // Setting some connection options which we need to reset on every connect
 
             logger.d(TAG, "MQTT connecting on : " + mqtt!!.serverURI)
@@ -192,7 +203,7 @@ internal class MqttConnection(
                 connectOptions.keepAlive.isOptimal,
                 serverUri
             )
-            mqtt!!.connect(options, null, getConnectListener(subscriptionTopicMap))
+            mqtt!!.connect(options, null, getConnectListener())
             runnableScheduler.scheduleNextActivityCheck()
         } catch (e: MqttSecurityException) {
             logger.e(TAG, "mqtt security exception while connecting $e")
@@ -407,7 +418,7 @@ internal class MqttConnection(
         return mqttAsyncClient
     }
 
-    private fun getConnectListener(subscriptionTopicMap: Map<String, QoS>): IMqttActionListener? {
+    private fun getConnectListener(): IMqttActionListener {
         return object : IMqttActionListener {
             override fun onSuccess(iMqttToken: IMqttToken) {
                 try {
@@ -515,6 +526,7 @@ internal class MqttConnection(
                     ),
                     timeTakenMillis = (clock.nanoTime() - subscribeStartTime).fromNanosToMillis()
                 )
+                subscriptionStore.getListener().onInvalidTopicsSubscribeFailure(topicMap)
             }
         }
     }
@@ -546,6 +558,7 @@ internal class MqttConnection(
                     ),
                     timeTakenMillis = (clock.nanoTime() - unsubscribeStartTime).fromNanosToMillis()
                 )
+                subscriptionStore.getListener().onInvalidTopicsUnsubscribeFailure(topics)
             }
         }
     }
@@ -576,11 +589,12 @@ internal class MqttConnection(
                     connectionConfig.connectionEventHandler.onMqttSubscribeFailure(
                         topics = failTopicMap,
                         timeTakenMillis = (clock.nanoTime() - context.startTime).fromNanosToMillis(),
-                        throwable = MqttException(MqttException.REASON_CODE_INVALID_SUBSCRIPTION.toInt())
+                        throwable = MqttException(REASON_CODE_INVALID_SUBSCRIPTION.toInt())
                     )
                 }
 
                 subscriptionStore.getListener().onTopicsSubscribed(successTopicMap)
+                subscriptionStore.getListener().onInvalidTopicsSubscribeFailure(failTopicMap)
                 subscriptionPolicy.resetParams()
             }
 
@@ -680,6 +694,10 @@ internal class MqttConnection(
         return object : IExperimentsConfig {
             override fun inactivityTimeoutSecs(): Int {
                 return connectionConfig.inactivityTimeoutSeconds
+            }
+
+            override fun connectPacketTimeoutSecs(): Int {
+                return connectionConfig.connectPacketTimeoutSeconds
             }
 
             override fun useNewSSLFlow(): Boolean {

@@ -45,7 +45,6 @@ import in.mohalla.paho.client.mqttv3.internal.wire.MqttWireMessage;
 import java.io.EOFException;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -150,6 +149,8 @@ public class ClientState
 	private final static String className = ClientState.class.getName();
 
 	private long inactivityTimeout = DEFAULT_INACTIVITY_TIMEOUT;
+
+	private long connectPacketTimeout = DEFAULT_INACTIVITY_TIMEOUT;
 	private final static long DEFAULT_INACTIVITY_TIMEOUT = 60 * 1000;
 
 	private IPahoEvents pahoEvents;
@@ -191,6 +192,7 @@ public class ClientState
 
 		if (experimentsConfig != null) {
 			inactivityTimeout = experimentsConfig.inactivityTimeoutSecs() * 1000L;
+			connectPacketTimeout = experimentsConfig.connectPacketTimeoutSecs() * 1000L;
 		}
 
 		restoreState();
@@ -647,7 +649,7 @@ public class ClientState
 	 *
 	 * @return token of ping command, null if no ping command has been sent.
 	 */
-	public MqttToken checkForActivity() throws MqttException
+	public MqttToken checkForActivity(Boolean forcePing) throws MqttException
 	{
 		final String methodName = "checkForActivity";
 
@@ -670,7 +672,7 @@ public class ClientState
 					long lastActivity = lastInboundActivity;
 
 					// Is a ping required?
-					if (time - lastActivity + keepAliveMargin >= this.keepAlive)
+					if (forcePing || (time - lastActivity + keepAliveMargin >= this.keepAlive))
 					{
 
 						// @TRACE 620=ping needed. keepAlive={0} lastOutboundActivity={1} lastInboundActivity={2}
@@ -749,7 +751,7 @@ public class ClientState
 					// Wake sender thread since it may be in wait state (in ClientState.get())
 					notifyQueueLock();
 				}
-				else if ((time - lastPing >= keepAlive + delta) && (time - lastInboundActivity >= keepAlive + delta) && (time - lastOutboundActivity >= keepAlive + delta))
+				else if ((time - lastPing >= keepAlive + delta) && (time - lastInboundActivity >= keepAlive + delta))
 				{
 					// any of the conditions is true means the client is active
 					// lastInboundActivity will be updated once receiving is done.
@@ -775,8 +777,13 @@ public class ClientState
 		{	
 			if (fastReconnectCheckStartTime > lastInboundActivity)
 			{
-				if(System.currentTimeMillis() - fastReconnectCheckStartTime >= inactivityTimeout)
-					
+				long timeout;
+				if (clientComms.isConnecting()) {
+					timeout = connectPacketTimeout;
+				} else {
+					timeout = inactivityTimeout;
+				}
+				if(System.currentTimeMillis() - fastReconnectCheckStartTime >= timeout)
 				{
 					logger.logFastReconnectEvent(fastReconnectCheckStartTime, lastInboundActivity);
 					logger.e(TAG, "not recieved ack for 1 min so disconnecting");
@@ -1345,6 +1352,10 @@ public class ClientState
 				// Reset pingOutstanding to allow reconnects to assume no previous ping.
 				pingOutstanding = Boolean.FALSE;
 			}
+			fastReconnectCheckStartTime = 0;
+			lastInboundActivity = 0;
+			lastOutboundActivity = 0;
+			lastPing = 0;
 		}
 		catch (MqttException e)
 		{

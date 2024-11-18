@@ -2,6 +2,7 @@ package com.gojek.mqtt.client.internal
 
 import android.content.Context
 import com.gojek.courier.QoS
+import com.gojek.courier.callback.SendMessageCallback
 import com.gojek.keepalive.KeepAliveFailureHandler
 import com.gojek.keepalive.NoOpKeepAliveFailureHandler
 import com.gojek.keepalive.OptimalKeepAliveFailureHandler
@@ -21,6 +22,7 @@ import com.gojek.mqtt.event.PingEventHandler
 import com.gojek.mqtt.model.AdaptiveKeepAliveConfig
 import com.gojek.mqtt.model.MqttConnectOptions
 import com.gojek.mqtt.model.MqttPacket
+import com.gojek.mqtt.utils.MqttUtils
 import com.gojek.networktracker.NetworkStateTrackerFactory
 
 internal class MqttClientInternal(
@@ -41,7 +43,7 @@ internal class MqttClientInternal(
     private var keepAliveProvider: KeepAliveProvider = NonAdaptiveKeepAliveProvider()
     private var keepAliveFailureHandler: KeepAliveFailureHandler = NoOpKeepAliveFailureHandler()
 
-    private val eventHandler = MqttEventHandler()
+    private val eventHandler = MqttEventHandler(MqttUtils())
 
     private val optimalKeepAliveObserver = object : OptimalKeepAliveObserver {
         override fun onOptimalKeepAliveFound(
@@ -97,8 +99,8 @@ internal class MqttClientInternal(
         androidMqttClient.unsubscribe(listOf(*topics))
     }
 
-    fun send(mqttPacket: MqttPacket): Boolean {
-        return androidMqttClient.send(mqttPacket)
+    fun send(mqttPacket: MqttPacket, sendMessageCallback: SendMessageCallback): Boolean {
+        return androidMqttClient.send(mqttPacket, sendMessageCallback)
     }
 
     fun addMessageListener(topic: String, listener: MessageListener) {

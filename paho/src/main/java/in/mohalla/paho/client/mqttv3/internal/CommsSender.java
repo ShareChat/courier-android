@@ -286,7 +286,9 @@ public class CommsSender implements Runnable
 		) {
 			clientState.releaseMessageId(message.getMessageId());
 		}
-		clientState.releaseMessageId(message.getType());
+		if (message != null) {
+			clientState.releaseMessageId(message.getType());
+		}
 		running = false;
 
 		clientComms.shutdownConnection(null, mex);

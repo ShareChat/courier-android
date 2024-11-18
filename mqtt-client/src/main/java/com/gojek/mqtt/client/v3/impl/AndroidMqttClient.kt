@@ -10,6 +10,7 @@ import android.os.Messenger
 import android.os.RemoteException
 import androidx.annotation.RequiresApi
 import com.gojek.courier.QoS
+import com.gojek.courier.callback.SendMessageCallback
 import com.gojek.courier.exception.AuthApiException
 import com.gojek.courier.extensions.fromNanosToMillis
 import com.gojek.courier.logging.ILogger
@@ -178,7 +179,8 @@ internal class AndroidMqttClient(
                 persistenceOptions = mqttConfiguration.persistenceOptions,
                 inactivityTimeoutSeconds = experimentConfigs.inactivityTimeoutSeconds,
                 policyResetTimeSeconds = experimentConfigs.policyResetTimeSeconds,
-                shouldUseNewSSLFlow = experimentConfigs.shouldUseNewSSLFlow
+                shouldUseNewSSLFlow = experimentConfigs.shouldUseNewSSLFlow,
+                connectPacketTimeoutSeconds = experimentConfigs.connectPacketTimeoutSeconds
             )
 
         mqttConnection = MqttConnection(
@@ -238,7 +240,6 @@ internal class AndroidMqttClient(
         if (!isConnected()) {
             connectMqtt()
         }
-
         try {
             logger.d(
                 TAG,
@@ -250,31 +251,37 @@ internal class AndroidMqttClient(
                     MqttMessageSendEvent(topic, qos, message.size)
                 )
             }
+            mqttPacket.sendMessageCallback.onMessageSendTrigger()
             mqttConnection.publish(mqttPacket)
         } catch (e: MqttPersistenceException) {
+            mqttPacket.sendMessageCallback.onMessageSendFailure(e)
             with(mqttPacket) {
                 eventHandler.onEvent(
                     MqttMessageSendFailureEvent(
                         topic = topic,
                         qos = qos,
                         sizeBytes = message.size,
+                        timeTakenMillis = (System.nanoTime() - triggerTime).fromNanosToMillis(),
                         exception = e.toCourierException()
                     )
                 )
             }
         } catch (e: MqttException) {
+            mqttPacket.sendMessageCallback.onMessageSendFailure(e)
             with(mqttPacket) {
                 eventHandler.onEvent(
                     MqttMessageSendFailureEvent(
                         topic = topic,
                         qos = qos,
                         sizeBytes = message.size,
+                        timeTakenMillis = (System.nanoTime() - triggerTime).fromNanosToMillis(),
                         exception = e.toCourierException()
                     )
                 )
             }
             runnableScheduler.scheduleMqttHandleExceptionRunnable(e, true)
         } catch (e: java.lang.Exception) {
+            mqttPacket.sendMessageCallback.onMessageSendFailure(e)
             // this might happen if mqtt object becomes null while disconnect, so just ignore
             with(mqttPacket) {
                 eventHandler.onEvent(
@@ -282,6 +289,7 @@ internal class AndroidMqttClient(
                         topic = topic,
                         qos = qos,
                         sizeBytes = message.size,
+                        timeTakenMillis = (System.nanoTime() - triggerTime).fromNanosToMillis(),
                         exception = e.toCourierException()
                     )
                 )
@@ -290,14 +298,16 @@ internal class AndroidMqttClient(
     }
 
     // This can be invoked on any thread
-    override fun send(mqttPacket: MqttPacket): Boolean {
+    override fun send(mqttPacket: MqttPacket, sendMessageCallback: SendMessageCallback): Boolean {
         val mqttSendPacket = MqttSendPacket(
-            mqttPacket.message,
-            0,
-            System.currentTimeMillis(),
-            mqttPacket.qos.value,
-            mqttPacket.topic,
-            mqttPacket.qos.type
+            message = mqttPacket.message,
+            messageId = 0,
+            timestamp = System.currentTimeMillis(),
+            qos = mqttPacket.qos.value,
+            topic = mqttPacket.topic,
+            type = mqttPacket.qos.type,
+            triggerTime = System.nanoTime(),
+            sendMessageCallback = sendMessageCallback
         )
 
         val msg = Message.obtain()
@@ -512,6 +522,7 @@ internal class AndroidMqttClient(
                 .keepAlive(keepAliveProvider.getKeepAlive(connectOptions))
                 .clientId(connectOptions.clientId + ":adaptive")
                 .cleanSession(true)
+                .clearWill()
                 .build()
         } else {
             connectOptions.newBuilder()
@@ -528,7 +539,8 @@ internal class AndroidMqttClient(
                     connectTimeout = mqttConfiguration.connectTimeoutPolicy.getConnectTimeOut(),
                     host = hostFallbackPolicy!!.getServerUri().host,
                     port = hostFallbackPolicy!!.getServerUri().port,
-                    scheme = hostFallbackPolicy!!.getServerUri().scheme
+                    scheme = hostFallbackPolicy!!.getServerUri().scheme,
+                    cleanSession = mqttConnectOptions.isCleanSession
                 )
             )
         }
@@ -576,22 +588,38 @@ internal class AndroidMqttClient(
     inner class MqttMessageSendListener :
         IMessageSendListener {
         override fun onSuccess(packet: MqttSendPacket) {
+            packet.sendMessageCallback.onMessageSendSuccess()
             with(packet) {
                 eventHandler.onEvent(
                     MqttMessageSendSuccessEvent(
-                        topic,
-                        qos,
-                        message.size
+                        topic = topic,
+                        qos = qos,
+                        sizeBytes = message.size,
+                        timeTakenMillis = (System.nanoTime() - triggerTime).fromNanosToMillis()
                     )
                 )
             }
         }
 
         override fun onFailure(packet: MqttSendPacket, exception: Throwable) {
+            packet.sendMessageCallback.onMessageSendFailure(exception)
+            with(packet) {
+                eventHandler.onEvent(
+                    MqttMessageSendFailureEvent(
+                        topic = topic,
+                        qos = qos,
+                        sizeBytes = message.size,
+                        timeTakenMillis = (System.nanoTime() - triggerTime).fromNanosToMillis(),
+                        exception = exception.toCourierException()
+                    )
+                )
+            }
             runnableScheduler.connectMqtt()
         }
 
-        override fun notifyWrittenOnSocket(packet: MqttSendPacket) {}
+        override fun notifyWrittenOnSocket(packet: MqttSendPacket) {
+            packet.sendMessageCallback.onMessageWrittenOnSocket()
+        }
     }
 
     companion object {
