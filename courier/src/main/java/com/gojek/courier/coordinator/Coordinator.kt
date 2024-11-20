@@ -17,13 +17,13 @@ import com.gojek.mqtt.client.model.MqttMessage
 import com.gojek.mqtt.event.EventHandler
 import com.gojek.mqtt.event.MqttEvent
 import com.gojek.mqtt.event.MqttEvent.MqttSubscribeFailureEvent
+import `in`.mohalla.paho.client.mqttv3.MqttException
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.FlowableOnSubscribe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import org.eclipse.paho.client.mqttv3.MqttException
 import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 
