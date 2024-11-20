@@ -604,7 +604,7 @@ internal class MqttConnection(
             ) {
                 if (subscriptionPolicy.shouldRetry()) {
                     logger.e(TAG, "Subscribe unsuccessful. Will retry again")
-                    runnableScheduler.scheduleSubscribe(10, topicMap)
+                    runnableScheduler.scheduleSubscribe(100, topicMap)
                 } else {
                     // Reconnect
                     logger.e(TAG, "Subscribe unsuccessful. Will reconnect again")

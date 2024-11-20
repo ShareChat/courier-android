@@ -26,7 +26,7 @@ import javax.net.SocketFactory;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
-import static org.eclipse.paho.client.mqttv3.MqttException.REASON_CODE_INVALID_CONNECT_OPTIONS;
+import static in.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_INVALID_CONNECT_OPTIONS;
 
 /**
  * Holds the set of options that control how the client connects to a server.

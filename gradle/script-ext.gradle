@@ -1,5 +1,5 @@
 ext {
     gitVersionCode = ""//grgit.tag.list().size()
-    gitVersionName = "0.3.0"//grgit.describe(tags: true, always: true)
+    gitVersionName = "0.4.0"//grgit.describe(tags: true, always: true)
     println("version : $gitVersionName")
 }
