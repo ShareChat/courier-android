@@ -1,16 +1,21 @@
 package com.gojek.courier.app.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.gojek.chuckmqtt.external.MqttChuckConfig
 import com.gojek.chuckmqtt.external.MqttChuckInterceptor
 import com.gojek.chuckmqtt.external.Period
 import com.gojek.courier.Courier
+import com.gojek.courier.QoS
+import com.gojek.courier.QoS.ZERO
 import com.gojek.courier.app.R
 import com.gojek.courier.app.data.network.CourierService
 import com.gojek.courier.app.data.network.model.Message
+import com.gojek.courier.callback.SendMessageCallback
 import com.gojek.courier.logging.ILogger
 import com.gojek.courier.messageadapter.gson.GsonMessageAdapterFactory
+import com.gojek.courier.messageadapter.text.TextMessageAdapterFactory
 import com.gojek.courier.streamadapter.rxjava2.RxJava2StreamAdapterFactory
 import com.gojek.mqtt.auth.Authenticator
 import com.gojek.mqtt.client.MqttClient
@@ -24,6 +29,7 @@ import com.gojek.mqtt.model.AdaptiveKeepAliveConfig
 import com.gojek.mqtt.model.KeepAlive
 import com.gojek.mqtt.model.MqttConnectOptions
 import com.gojek.mqtt.model.ServerUri
+import com.gojek.mqtt.model.Will
 import com.gojek.workmanager.pingsender.WorkManagerPingSenderConfig
 import com.gojek.workmanager.pingsender.WorkPingSenderFactory
 import kotlinx.android.synthetic.main.activity_main.brokerIP
@@ -78,12 +84,37 @@ class MainActivity : AppCompatActivity() {
         send.setOnClickListener {
             courierService.publish(
                 topic = topic.text.toString(),
-                message = Message(123, message.text.toString())
+                message = Message(123, message.text.toString()),
+                callback = object : SendMessageCallback {
+                    override fun onMessageSendTrigger() {
+                        Log.d("Courier", "onMessageSendTrigger")
+                    }
+
+                    override fun onMessageWrittenOnSocket() {
+                        Log.d("Courier", "onMessageWrittenOnSocket")
+                    }
+
+                    override fun onMessageSendSuccess() {
+                        Log.d("Courier", "onMessageSendSuccess")
+                    }
+
+                    override fun onMessageSendFailure(error: Throwable) {
+                        Log.d("Courier", "onMessageSendFailure")
+                    }
+                }
             )
         }
 
         subscribe.setOnClickListener {
-            courierService.subscribe(topic = topic.text.toString())
+            val topics = topic.text.toString().split(",")
+            val stream = if (topics.size == 1) {
+                courierService.subscribe(topic = topics[0])
+            } else {
+                val topicMap = mutableMapOf<String, QoS>()
+                for (topic in topics) { topicMap[topic] = ZERO }
+                courierService.subscribeAll(topicMap = topicMap)
+            }
+            stream.subscribe { Log.d("Courier", "Message received: $it") }
         }
 
         unsubscribe.setOnClickListener {
@@ -92,12 +123,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun connectMqtt(clientId: String, username: String, password: String, ip: String, port: Int) {
+
+        val will = Will(
+            topic = "last/will/topic",
+            message = "Client disconnected unexpectedly",
+            qos = QoS.ZERO,
+            retained = false
+        )
+
         val connectOptions = MqttConnectOptions.Builder()
             .serverUris(listOf(ServerUri(ip, port, if (port == 443) "ssl" else "tcp")))
             .clientId(clientId)
             .userName(username)
             .password(password)
             .cleanSession(false)
+            .will(will)
             .keepAlive(KeepAlive(timeSeconds = 30))
             .build()
 
@@ -129,11 +169,12 @@ class MainActivity : AppCompatActivity() {
                 ),
                 inactivityTimeoutSeconds = 45,
                 activityCheckIntervalSeconds = 30,
+                connectPacketTimeoutSeconds = 5,
                 incomingMessagesTTLSecs = 60,
                 incomingMessagesCleanupIntervalSecs = 10,
                 maxInflightMessagesLimit = 1000,
             ),
-            pingSender = WorkPingSenderFactory.createMqttPingSender(applicationContext, WorkManagerPingSenderConfig())
+            pingSender = WorkPingSenderFactory.createMqttPingSender(applicationContext, WorkManagerPingSenderConfig(sendForcePing = true))
         )
         mqttClient = MqttClientFactory.create(this, mqttConfig)
         mqttClient.addEventHandler(eventHandler)
@@ -141,7 +182,7 @@ class MainActivity : AppCompatActivity() {
         val configuration = Courier.Configuration(
             client = mqttClient,
             streamAdapterFactories = listOf(RxJava2StreamAdapterFactory()),
-            messageAdapterFactories = listOf(GsonMessageAdapterFactory()),
+            messageAdapterFactories = listOf(TextMessageAdapterFactory(), GsonMessageAdapterFactory()),
             logger = getLogger()
         )
         val courier = Courier(configuration)

@@ -21,6 +21,7 @@ import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_CONNECTION_LOST
 import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_CONNECT_IN_PROGRESS
 import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_FAILED_AUTHENTICATION
 import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_INVALID_CLIENT_ID
+import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_INVALID_CONNECT_OPTIONS
 import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_INVALID_MESSAGE
 import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_INVALID_PROTOCOL_VERSION
 import `in`.mohalla.paho.client.mqttv3.MqttException.REASON_CODE_MAX_INFLIGHT
@@ -177,8 +178,9 @@ class MqttExceptionHandlerImplTest {
         val exception = MqttException(
             REASON_CODE_FAILED_AUTHENTICATION.toInt()
         )
+        whenever(connectRetryTimePolicy.getConnRetryTimeSecs(true)).thenReturn(20)
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verify(runnableScheduler).scheduleAuthFailureRunnable()
+        verify(runnableScheduler).scheduleAuthFailureRunnable(20000)
     }
 
     @Test
@@ -186,8 +188,17 @@ class MqttExceptionHandlerImplTest {
         val exception = MqttException(
             REASON_CODE_NOT_AUTHORIZED.toInt()
         )
+        whenever(connectRetryTimePolicy.getConnRetryTimeSecs(true)).thenReturn(20)
         mqttExceptionHandlerImpl.handleException(exception, true)
-        verify(runnableScheduler).scheduleAuthFailureRunnable()
+        verify(runnableScheduler).scheduleAuthFailureRunnable(20000)
+    }
+
+    @Test
+    fun `test exception with reason code 32205`() {
+        val exception = MqttException(REASON_CODE_INVALID_CONNECT_OPTIONS.toInt())
+        whenever(connectRetryTimePolicy.getConnRetryTimeSecs(true)).thenReturn(20)
+        mqttExceptionHandlerImpl.handleException(exception, true)
+        verify(runnableScheduler).scheduleAuthFailureRunnable(20000)
     }
 
     @Test
